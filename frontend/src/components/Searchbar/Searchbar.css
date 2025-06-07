@@ -1,0 +1,19 @@
+.searchbar {
+  grid-area: searchbar;
+  width: 100%;
+}
+
+.searchbar__input {
+  border: 1px solid var(--color-black);
+  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  border-radius: 8px;
+  width: 100%;
+  font-size: var(--font-size-body);
+  font-weight: 400;
+}
+
+.searchbar__input:focus {
+  outline: 1.5px solid black;
+  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.7);
+}
