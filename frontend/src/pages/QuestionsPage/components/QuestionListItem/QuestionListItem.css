@@ -83,3 +83,8 @@
     transition: transform 0.3s ease;
   }
 }
+
+.visually-hidden {
+  position: absolute;
+  opacity: 0;
+}
