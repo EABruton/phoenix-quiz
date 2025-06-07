@@ -4,7 +4,9 @@ defmodule Backend.Quizzes do
   """
 
   import Ecto.Query, warn: false
+  require Logger
   alias Backend.Repo
+  require Logger
 
   alias Backend.Quizzes.Question
 
@@ -100,18 +102,23 @@ defmodule Backend.Quizzes do
 
   ## Examples
 
-      iex> delete_questions(["1", "2", "3"])
+      iex> delete_questions([%Ecto.UUID{}, ...])
       {:ok, 3}
   """
   @spec delete_questions(question_ids :: [String.t()]) :: {:ok, non_neg_integer()}
   def delete_questions(question_ids) do
     question_count = length(question_ids)
 
-    {^question_count, _} =
-      from(question in Question, where: question.id in ^question_ids)
-      |> Repo.delete_all()
+    query = from(question in Question, where: question.id in ^question_ids)
 
-    {:ok, question_count}
+    with {^question_count, _} <- Repo.delete_all(query) do
+      {:ok, question_count}
+
+    else
+      _ -> 
+        Logger.warning("Invalid delete questions IDs: #{IO.inspect(question_ids)}")
+        {:error, :bad_request}
+    end
   end
 
   @doc """

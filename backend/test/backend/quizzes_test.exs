@@ -72,6 +72,11 @@ defmodule Backend.QuizzesTest do
       non_deleted_results = from(q in Question, where: q.id in ^all_question_ids) |> Repo.all()
       assert length(non_deleted_results) == length(non_deleted_question_ids)
     end
+
+    test "delete_questions/1 with invalid IDs returns 0 change count" do
+      random_id = Ecto.UUID.generate()
+      assert {:error, :bad_request} = Quizzes.delete_questions([random_id])
+    end
   end
 
   describe "answers" do
