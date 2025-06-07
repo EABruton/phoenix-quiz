@@ -1,5 +1,5 @@
 import { RadioButtonChecked, RadioButtonUnchecked } from "../../../../assets/icons";
-import type { Question } from "../../../../services/api/QuestionsService";
+import type { Question } from "../../../../services/api/QuizzesService";
 import { useQuestionsPageContext } from "../../QuestionsPageContext";
 import styles from "./QuestionListItem.module.css";
 

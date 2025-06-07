@@ -2,9 +2,9 @@ import './QuestionsPage.css';
 import { useState, useEffect } from "react";
 import FloatingActionsBar from "../../components/FloatingActionsBar/FloatingActionsBar";
 import QuestionsPageContext from "./QuestionsPageContext";
-import QuestionsService from "../../services/api/QuestionsService";
+import QuestionsService from "../../services/api/QuizzesService";
 import Searchbar from "../../components/Searchbar/Searchbar";
-import type { Question } from "../../services/api/QuestionsService";
+import type { Question } from "../../services/api/QuizzesService";
 import QuestionList from './components/QuestionList/QuestionList';
 
 

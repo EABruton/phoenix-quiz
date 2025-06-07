@@ -1,4 +1,4 @@
-import type { Question } from '../../../../services/api/QuestionsService';
+import type { Question } from '../../../../services/api/QuizzesService';
 import QuestionListItem from '../QuestionListItem/QuestionListItem';
 import './QuestionList.css';
 
