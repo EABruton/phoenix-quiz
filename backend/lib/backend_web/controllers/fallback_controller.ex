@@ -29,4 +29,3 @@ defmodule BackendWeb.FallbackController do
     |> render(:"500")
   end
 end
-

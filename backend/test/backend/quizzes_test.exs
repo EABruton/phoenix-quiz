@@ -35,7 +35,11 @@ defmodule Backend.QuizzesTest do
 
     test "update_question/2 with valid data updates the question" do
       question = question_fixture()
-      update_attrs = %{question_text: "some updated question_text", answer_text: "some updated answer_text"}
+
+      update_attrs = %{
+        question_text: "some updated question_text",
+        answer_text: "some updated answer_text"
+      }
 
       assert {:ok, %Question{} = question} = Quizzes.update_question(question, update_attrs)
       assert question.question_text == "some updated question_text"
@@ -68,7 +72,7 @@ defmodule Backend.QuizzesTest do
 
       assert {:ok, 3} = Quizzes.delete_questions(deleted_question_ids)
       assert [] == from(q in Question, where: q.id in ^deleted_question_ids) |> Repo.all()
-      
+
       non_deleted_results = from(q in Question, where: q.id in ^all_question_ids) |> Repo.all()
       assert length(non_deleted_results) == length(non_deleted_question_ids)
     end

@@ -7,4 +7,3 @@ defmodule BackendWeb.ReactController do
     |> Plug.Conn.send_file(200, Path.join(:code.priv_dir(:backend), "static/index.html"))
   end
 end
-

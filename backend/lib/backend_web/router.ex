@@ -19,7 +19,6 @@ defmodule BackendWeb.Router do
     delete "/questions", QuestionsController, :batch_delete
   end
 
-
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:backend, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
