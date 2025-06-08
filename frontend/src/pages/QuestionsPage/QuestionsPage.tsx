@@ -2,7 +2,7 @@ import './QuestionsPage.css';
 import { useState, useEffect } from "react";
 import FloatingActionsBar from "../../components/FloatingActionsBar/FloatingActionsBar";
 import QuestionsPageContext from "./QuestionsPageContext";
-import QuestionsService from "../../services/api/QuizzesService";
+import QuizzesService from "../../services/api/QuizzesService";
 import Searchbar from "../../components/Searchbar/Searchbar";
 import type { Question } from "../../services/api/QuizzesService";
 import QuestionList from './components/QuestionList/QuestionList';
@@ -20,6 +20,7 @@ function SelectButton({ selectedQuestions, setSelectedQuestions, questions }: Se
       <button
         className="floating-actions-bar__button floating-actions-bar__button--select"
         onClick={() => setSelectedQuestions([])}
+        data-testid="deselect-all-questions"
       >
         Deselect All
       </button>
@@ -29,6 +30,7 @@ function SelectButton({ selectedQuestions, setSelectedQuestions, questions }: Se
     <button
       className="floating-actions-bar__button floating-actions-bar__button--select"
       onClick={() => setSelectedQuestions([...questions.map(q => q.id)])}
+      data-testid="select-all-questions"
     >
       Select All
     </button>
@@ -49,21 +51,19 @@ export default function QuestionsPage() {
   })
 
   async function handleDeleteQuestions() {
-    const [responseCode, error] = await QuestionsService.deleteQuestions(selectedQuestions);
+    const [_, error] = await QuizzesService.deleteQuestions(selectedQuestions);
 
     if (error) {
       console.error("Error deleting questions: ", error.message);
     }
     else {
-      console.log("Success!");
-      console.log(responseCode);
       setQuestions(questions.filter(question => !selectedQuestions.includes(question.id)))
       setSelectedQuestions([]);
     }
   }
 
   useEffect(() => {
-    const [controller, fetchQuestions] = QuestionsService.fetchQuestions();
+    const [controller, fetchQuestions] = QuizzesService.fetchQuestions();
 
     fetchQuestions()
       .then(([data, err]) => {
@@ -89,11 +89,11 @@ export default function QuestionsPage() {
   }, []);
 
   let content;
-  if (error) content = <p>Error: {error.message}</p>;
-  else if (isLoading) content = <p>Loading...</p>;
+  if (error) content = <p data-testid="error-text">Error: {error.message}</p>;
+  else if (isLoading) content = <p data-testid="loading-text">Loading...</p>;
   else {
     content = [
-      <Searchbar ariaLabel="Search questions" ariaControls="questions-list" searchCallback={setSearchFilter} key={"searchbar"} />,
+      <Searchbar ariaLabel="Search questions" ariaControls="questions-list" searchCallback={setSearchFilter} placeholderText='Search questions...' key={"searchbar"} />,
       filteredQuestions.length > 0 ? <QuestionList
         questions={filteredQuestions}
         key={"question-list"}
