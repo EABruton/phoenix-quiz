@@ -8,9 +8,9 @@
  * - [x] searchbar filtering functionality
  * - [x] searchbar + select all functionality
  * - [x] searchbar + deselect all functionality
- * - [ ] total questions count is accurate
- * - [ ] filtered questions count is accurate
- * - [ ] no results text appears when no matching question results
+ * - [x] total questions count is accurate
+ * - [x] filtered questions count is accurate
+ * - [x] no results text appears when no matching question results
  */
 
 import userEvent from "@testing-library/user-event";
@@ -40,6 +40,10 @@ const sLoadingText = "loading-text";
 const sErrorText = "error-text";
 const sSelectAll = "select-all-questions";
 const sDeselectAll = "deselect-all-questions";
+const sTotalQuestions = "total-questions-count";
+const sSelectedQuestions = "selected-questions-count";
+const sVisibleQuestions = "visible-questions-count";
+const sNoMatchingQuestions = "no-matching-question-notice";
 
 beforeEach(() => {
   mockFetchQuestions.mockReset();
@@ -87,6 +91,7 @@ describe("question filtering and selecting", () => {
   });
 
   test("select all & unselect all buttons select / deselect all questions' checkboxes", async () => {
+    userEvent.setup();
     render(<QuestionsPage />);
 
     // loading
@@ -122,6 +127,7 @@ describe("question filtering and selecting", () => {
   });
 
   test("searchbar filtering limits questions by filter text", async () => {
+    userEvent.setup();
     const targetQuestion = responseData[0];
     render(<QuestionsPage />);
 
@@ -158,6 +164,7 @@ describe("question filtering and selecting", () => {
   });
 
   test("select / deselect all only affects visible items", async () => {
+    userEvent.setup();
     const targetQuestion = responseData[0];
     const targetQuestion2 = responseData[1];
     render(<QuestionsPage />);
@@ -215,5 +222,74 @@ describe("question filtering and selecting", () => {
       }
       expect(checkbox).not.toBeChecked();
     }
+  });
+
+  test("total, selected, visible question counts are correct", async () => {
+    userEvent.setup();
+    render(<QuestionsPage />);
+
+    // loading
+    expect(await screen.findByTestId(sLoadingText)).toBeVisible();
+    // loaded
+    expect(await screen.findByTestId(questionTestIDs[0])).toBeVisible();
+
+    const totalQuestionsCount = screen.getByTestId(sTotalQuestions);
+    const selectedQuestionsCount = screen.getByTestId(sSelectedQuestions);
+    const visibleQuestionsCount = screen.getByTestId(sVisibleQuestions);
+
+    // initial state
+    expect(totalQuestionsCount).toHaveTextContent(
+      responseData.length.toString(),
+    );
+    expect(selectedQuestionsCount).toHaveTextContent("0");
+    expect(visibleQuestionsCount).toHaveTextContent(
+      responseData.length.toString(),
+    );
+
+    // select a question and check the selected count
+    const question = screen.getByTestId(questionTestIDs[0]);
+    const questionCheckbox = within(question).getByRole("checkbox");
+    await userEvent.click(questionCheckbox);
+
+    expect(selectedQuestionsCount).toHaveTextContent("1");
+
+    // filter by a different question and check the visible and selected counts
+    // const question2Checkbox = within(question2).getByRole("checkbox");
+    const question2 = screen.getByTestId(questionTestIDs[1]);
+    const searchBar = screen.getByRole("searchbox");
+    await userEvent.type(searchBar, responseData[1].question_text);
+
+    expect(question2).toBeVisible();
+    expect(screen.queryByTestId(questionTestIDs[0])).not.toBeInTheDocument();
+    expect(visibleQuestionsCount).toHaveTextContent("1");
+    expect(selectedQuestionsCount).toHaveTextContent("1");
+
+    await userEvent.type(searchBar, "willnotmatch");
+
+    expect(question).not.toBeInTheDocument();
+    expect(question2).not.toBeInTheDocument();
+    expect(visibleQuestionsCount).toHaveTextContent("0");
+    expect(selectedQuestionsCount).toHaveTextContent("1");
+  });
+
+  test("no results text appears when there no results", async () => {
+    userEvent.setup();
+    render(<QuestionsPage />);
+
+    // loading
+    expect(await screen.findByTestId(sLoadingText)).toBeVisible();
+    // loaded
+    expect(await screen.findByTestId(questionTestIDs[0])).toBeVisible();
+
+    expect(screen.queryByTestId(sNoMatchingQuestions)).not.toBeInTheDocument();
+
+    const searchBar = screen.getByRole("searchbox");
+    await userEvent.type(searchBar, "willnotmatch");
+
+    const noMatchingQuestions = screen.getByTestId(sNoMatchingQuestions);
+    expect(noMatchingQuestions).toBeVisible();
+
+    await userEvent.clear(searchBar);
+    expect(screen.queryByTestId(sNoMatchingQuestions)).not.toBeInTheDocument();
   });
 });
