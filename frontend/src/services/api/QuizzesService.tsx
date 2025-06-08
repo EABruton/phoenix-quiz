@@ -1,22 +1,27 @@
-import api from './api';
+import api from "./api";
 
 export type Question = {
   question_text: string;
   answer_text: string;
   id: string;
-}
+};
 
-async function deleteQuestions(questionIDs: string[]): Promise<[number | null, Error | null]> {
+async function deleteQuestions(
+  questionIDs: string[],
+): Promise<[number | null, Error | null]> {
   try {
-    const response = await api.delete("/questions", { data: { question_ids: questionIDs } });
+    const response = await api.delete("/questions", {
+      data: { question_ids: questionIDs },
+    });
     return [response.status, null];
-  }
-  catch (error) {
+  } catch (error) {
     return [null, error as Error];
   }
 }
 
-async function getQuestions(abortSignal: AbortSignal): Promise<[Question[] | null, Error | null]> {
+async function getQuestions(
+  abortSignal: AbortSignal,
+): Promise<[Question[] | null, Error | null]> {
   try {
     const { data } = await api.get("/questions", { signal: abortSignal });
     return [data.data, null];
@@ -26,10 +31,13 @@ async function getQuestions(abortSignal: AbortSignal): Promise<[Question[] | nul
   }
 }
 
-function fetchQuestions(): [AbortController, () => Promise<[Question[] | null, Error | null]>] {
+function fetchQuestions(): [
+  AbortController,
+  () => Promise<[Question[] | null, Error | null]>,
+] {
   const controller = new AbortController();
 
-  const func = async() => await getQuestions(controller.signal);
+  const func = async () => await getQuestions(controller.signal);
 
   return [controller, func];
 }
@@ -37,4 +45,4 @@ function fetchQuestions(): [AbortController, () => Promise<[Question[] | null, E
 export default {
   fetchQuestions,
   deleteQuestions,
-}
+};

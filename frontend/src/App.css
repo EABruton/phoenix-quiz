@@ -1,14 +1,14 @@
-@import url('./styles/colors.css');
-@import url('./styles/fonts.css');
+@import url("./styles/colors.css");
+@import url("./styles/fonts.css");
 
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .notice {
-  font-size: var(--font-size-body); 
+  font-size: var(--font-size-body);
   font-weight: 400;
   margin: 24px 0;
 }

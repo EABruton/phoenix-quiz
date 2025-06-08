@@ -1,13 +1,13 @@
 main#questions-page {
-    align-items: start;
-    display: grid;
-    gap: 12px;
-    grid-template-areas: "searchbar searchbar" "questions actions";
-    grid-template-columns: 4fr 1fr;
-    justify-content: center;
-    justify-items: center;
-    max-width: min(95%, 800px);
-    margin: auto;
+  align-items: start;
+  display: grid;
+  gap: 12px;
+  grid-template-areas: "searchbar searchbar" "questions actions";
+  grid-template-columns: 4fr 1fr;
+  justify-content: center;
+  justify-items: center;
+  max-width: min(95%, 800px);
+  margin: auto;
 }
 
 #no-matching-question-notice {

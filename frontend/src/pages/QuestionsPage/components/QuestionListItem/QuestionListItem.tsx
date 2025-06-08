@@ -8,7 +8,7 @@ import "./QuestionListItem.css";
 
 type QuestionListItemProps = {
   question: Question;
-}
+};
 
 /**
  * Component to render a checkbox for selecting questions in the question list.
@@ -52,14 +52,14 @@ function QuestionListItemCheckbox({ questionID }: { questionID: string }) {
 }
 
 /**
- * 
+ *
  * @param question - The question object containing the question text and ID.
  * @param question.question_text - The text of the question.
  * @param question.id - The unique identifier for the question.
  * @returns A JSX element representing a list item for a question.
  */
 export default function QuestionListItem({
-  question: { question_text: questionText, id: key }
+  question: { question_text: questionText, id: key },
 }: QuestionListItemProps) {
   return (
     // TODO: replace with anchor link with link to question details

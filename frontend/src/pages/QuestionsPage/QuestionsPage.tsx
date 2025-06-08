@@ -1,7 +1,7 @@
 import "./QuestionsPage.css";
 import { useState, useEffect } from "react";
 import FloatingActionsBar from "../../components/FloatingActionsBar/FloatingActionsBar";
-import QuestionsPageContext from "./QuestionsPageContext";
+import QuestionsPageProvider from "./QuestionsPageContext";
 import QuizzesService from "../../services/api/QuizzesService";
 import Searchbar from "../../components/Searchbar/Searchbar";
 import type { Question } from "../../services/api/QuizzesService";
@@ -127,10 +127,8 @@ export default function QuestionsPage() {
   }
 
   return (
-    <QuestionsPageContext.Provider
-      value={{ selectedQuestions, setSelectedQuestions }}
-    >
+    <QuestionsPageProvider value={{ selectedQuestions, setSelectedQuestions }}>
       <main id="questions-page">{content}</main>
-    </QuestionsPageContext.Provider>
+    </QuestionsPageProvider>
   );
 }

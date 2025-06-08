@@ -55,10 +55,10 @@ function SelectAllButton({
 }
 
 /**
-  * Component to render a select all or deselect all button based on whether
-  * all visible items are selected or not.
-  * This allows for bulk selection of questions. 
-  */
+ * Component to render a select all or deselect all button based on whether
+ * all visible items are selected or not.
+ * This allows for bulk selection of questions.
+ */
 export default function SelectButton({
   selectedQuestions,
   setSelectedQuestions,
