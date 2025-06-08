@@ -9,4 +9,3 @@ defmodule BackendWeb.ChangesetJson do
     end)
   end
 end
-

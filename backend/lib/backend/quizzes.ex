@@ -113,9 +113,8 @@ defmodule Backend.Quizzes do
 
     with {^question_count, _} <- Repo.delete_all(query) do
       {:ok, question_count}
-
     else
-      _ -> 
+      _ ->
         Logger.warning("Invalid delete questions IDs: #{IO.inspect(question_ids)}")
         {:error, :bad_request}
     end

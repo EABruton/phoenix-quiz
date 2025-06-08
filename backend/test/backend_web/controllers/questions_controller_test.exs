@@ -21,6 +21,7 @@ defmodule BackendWeb.QuestionsControllerTest do
       conn = delete(conn, ~p"/api/questions", question_ids: question_ids)
 
       assert response(conn, 204)
+
       # TODO: whenever view individual question is setup, test that the deleted question URLs return a 404
     end
 
@@ -37,4 +38,3 @@ defmodule BackendWeb.QuestionsControllerTest do
     question_ids
   end
 end
-
