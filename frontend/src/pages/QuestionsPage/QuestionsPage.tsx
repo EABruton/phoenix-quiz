@@ -106,11 +106,15 @@ export default function QuestionsPage() {
           </p>
           <p className="floating-actions-bar__text">
             <span>Selected Questions:</span>
-            <span data-testid="selected-questions-count">{selectedQuestions.length}</span>
+            <span data-testid="selected-questions-count">
+              {selectedQuestions.length}
+            </span>
           </p>
           <p className="floating-actions-bar__text">
             <span>Visible Questions:</span>
-            <span data-testid="visible-questions-count">{filteredQuestionIDs.length}</span>
+            <span data-testid="visible-questions-count">
+              {filteredQuestionIDs.length}
+            </span>
           </p>
         </div>
         <button
