@@ -9,3 +9,10 @@ main#questions-page {
     max-width: min(95%, 800px);
     margin: auto;
 }
+
+#no-matching-question-notice {
+  font-size: var(--font-size-body);
+  color: var(--color-black);
+  font-weight: 400;
+  grid-area: questions;
+}

@@ -30,7 +30,6 @@ const mockFetchQuestions = jest.fn();
 jest.mock('../../services/api/QuizzesService', () => ({
   __esModule: true,
   default: {
-    // fetchQuestions: () => [mockAbortController, async() => [responseData, null]],
     fetchQuestions: mockFetchQuestions,
   }
 }))

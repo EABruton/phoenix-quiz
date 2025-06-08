@@ -6,18 +6,13 @@ import type { Question } from "../../../../services/api/QuizzesService";
 import { useQuestionsPageContext } from "../../QuestionsPageContext";
 import "./QuestionListItem.css";
 
+type QuestionListItemProps = {
+  question: Question;
+}
+
 /**
  * Component to render a checkbox for selecting questions in the question list.
  * It uses the QuestionsPageContext to manage the state of selected questions.
- *
- * @description This component displays a checkbox that allows users to select or deselect a question.
- * When the checkbox is checked or unchecked, it updates the selected questions in the context.
- * The checkbox state is determined by whether the question ID is included in the selectedQuestions array.
- * It also visually indicates the selection state using icons for checked and unchecked states.
- * @example
- * <QuestionListItemCheckbox questionID="12345" />
- * @see {@link useQuestionsPageContext} for context management of selected questions.
- * @see {@link Question} for the structure of a question object.
  */
 function QuestionListItemCheckbox({ questionID }: { questionID: string }) {
   const { selectedQuestions, setSelectedQuestions } = useQuestionsPageContext();
@@ -64,10 +59,8 @@ function QuestionListItemCheckbox({ questionID }: { questionID: string }) {
  * @returns A JSX element representing a list item for a question.
  */
 export default function QuestionListItem({
-  question: { question_text: questionText, id: key },
-}: {
-  question: Question;
-}) {
+  question: { question_text: questionText, id: key }
+}: QuestionListItemProps) {
   return (
     // TODO: replace with anchor link with link to question details
     <div className="list-question" data-testid={key}>
