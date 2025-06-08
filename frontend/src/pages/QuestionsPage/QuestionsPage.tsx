@@ -6,7 +6,10 @@ import QuizzesService from "../../services/api/QuizzesService";
 import Searchbar from "../../components/Searchbar/Searchbar";
 import type { Question } from "../../services/api/QuizzesService";
 import QuestionList from "./components/QuestionList/QuestionList";
-import SelectButton from "./components/SelectButton/SelectButton";
+import {
+  SelectAllButton,
+  DeselectAllButton,
+} from "./components/SelectButtons/SelectButtons";
 
 export default function QuestionsPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -117,10 +120,14 @@ export default function QuestionsPage() {
         >
           Delete Selected
         </button>
-        <SelectButton
-          selectedQuestions={selectedQuestions}
+        <SelectAllButton
           setSelectedQuestions={setSelectedQuestions}
           filteredQuestionIDs={filteredQuestionIDs}
+        />
+        <DeselectAllButton
+          setSelectedQuestions={setSelectedQuestions}
+          filteredQuestionIDs={filteredQuestionIDs}
+          selectedQuestionIDs={selectedQuestions}
         />
       </FloatingActionsBar>,
     ];

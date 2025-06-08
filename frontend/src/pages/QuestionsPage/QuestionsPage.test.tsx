@@ -3,11 +3,11 @@
  * - [x] questions rendered from response
  * - [x] loading text appears while waiting for questions to load
  * - [x] error text if questions fail to load
- * - [ ] button enable / disable on selection of questions
- * - [ ] select all functionality
- * - [ ] unselect all functionality
- * - [ ] searchbar filtering functionality
- * - [ ] searchbar + select all functionality
+ * - [x] select all functionality
+ * - [x] unselect all functionality
+ * - [x] searchbar filtering functionality
+ * - [x] searchbar + select all functionality
+ * - [x] searchbar + deselect all functionality
  * - [ ] total questions count is accurate
  * - [ ] filtered questions count is accurate
  * - [ ] no results text appears when no matching question results
@@ -93,7 +93,7 @@ describe("question filtering and selecting", () => {
     expect(await screen.findByTestId(sLoadingText)).toBeVisible();
 
     // initial state
-    expect(screen.queryByTestId(sDeselectAll)).not.toBeInTheDocument();
+    expect(await screen.findByTestId(sDeselectAll)).toBeDisabled();
     for await (const questionID of questionTestIDs) {
       const question = await screen.findByTestId(questionID);
       const questionCheckbox = within(question).getByRole("checkbox");
@@ -103,7 +103,6 @@ describe("question filtering and selecting", () => {
 
     // select all
     await userEvent.click(screen.getByTestId(sSelectAll));
-    expect(screen.queryByTestId(sSelectAll)).not.toBeInTheDocument();
     for (const questionID of questionTestIDs) {
       const question = screen.getByTestId(questionID);
       const questionCheckbox = within(question).getByRole("checkbox");
@@ -113,7 +112,7 @@ describe("question filtering and selecting", () => {
 
     // deselect all functionality
     await userEvent.click(screen.getByTestId(sDeselectAll));
-    expect(screen.queryByTestId(sDeselectAll)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(sDeselectAll)).toBeDisabled();
     for (const questionID of questionTestIDs) {
       const question = screen.getByTestId(questionID);
       const questionCheckbox = within(question).getByRole("checkbox");
@@ -159,7 +158,6 @@ describe("question filtering and selecting", () => {
   });
 
   test("select / deselect all only affects visible items", async () => {
-    // loading -> loaded -> filter by text -> select all -> select second question -> filter by text -> deselect all
     const targetQuestion = responseData[0];
     const targetQuestion2 = responseData[1];
     render(<QuestionsPage />);

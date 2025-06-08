@@ -1,16 +1,20 @@
-type BaseSelectButtonProps = {
+type SelectButtonProps = {
   setSelectedQuestions: (updater: (prev: string[]) => string[]) => void;
   filteredQuestionIDs: string[];
 };
 
-type SelectButtonProps = BaseSelectButtonProps & {
-  selectedQuestions: string[];
+type DeselectButtonProps = SelectButtonProps & {
+  selectedQuestionIDs: string[];
 };
 
-function DeselectAllButton({
+/**
+ * This component allows the user to deselect all **viewable** questions from the currently-selected questions.
+ */
+export function DeselectAllButton({
   setSelectedQuestions,
   filteredQuestionIDs,
-}: BaseSelectButtonProps) {
+  selectedQuestionIDs,
+}: DeselectButtonProps) {
   // deselects everything from the current filter, but not everything overall
   function deselectVisibleQuestions() {
     setSelectedQuestions((currentIDs) => {
@@ -18,21 +22,30 @@ function DeselectAllButton({
     });
   }
 
+  // if none of the selected questions are visible, disable the button
+  const isDisabled = !filteredQuestionIDs.some((id) =>
+    selectedQuestionIDs.includes(id),
+  );
+
   return (
     <button
       className="floating-actions-bar__button floating-actions-bar__button--select"
       onClick={deselectVisibleQuestions}
       data-testid="deselect-all-questions"
+      disabled={isDisabled}
     >
       Deselect All
     </button>
   );
 }
 
-function SelectAllButton({
+/**
+ * This component allows the user to add all **viewable** questions to the currently-selected questions.
+ */
+export function SelectAllButton({
   setSelectedQuestions,
   filteredQuestionIDs,
-}: BaseSelectButtonProps) {
+}: SelectButtonProps) {
   // adds the filtered IDs to the current selection of IDs if not already present
   function addVisibleQuestionsToSelected() {
     setSelectedQuestions((currentIDs) => {
@@ -51,37 +64,5 @@ function SelectAllButton({
     >
       Select All
     </button>
-  );
-}
-
-/**
- * Component to render a select all or deselect all button based on whether
- * all visible items are selected or not.
- * This allows for bulk selection of questions.
- */
-export default function SelectButton({
-  selectedQuestions,
-  setSelectedQuestions,
-  filteredQuestionIDs,
-}: SelectButtonProps) {
-  // this determines whether to show the select all or deselect all button
-  // if every item visible is selected, we can show the deselect all button
-  const isEveryVisibleQuestionSelected = filteredQuestionIDs.every((id) =>
-    selectedQuestions.includes(id),
-  );
-
-  if (isEveryVisibleQuestionSelected) {
-    return (
-      <DeselectAllButton
-        setSelectedQuestions={setSelectedQuestions}
-        filteredQuestionIDs={filteredQuestionIDs}
-      />
-    );
-  }
-  return (
-    <SelectAllButton
-      setSelectedQuestions={setSelectedQuestions}
-      filteredQuestionIDs={filteredQuestionIDs}
-    />
   );
 }
