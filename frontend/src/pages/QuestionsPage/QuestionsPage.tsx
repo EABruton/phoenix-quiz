@@ -47,7 +47,7 @@ export default function QuestionsPage() {
   const filteredQuestions = questions.filter(({ question_text: questionText }) => {
     if (searchFilter.trim().length < 1) return true;
 
-    return questionText.toLowerCase().includes(searchFilter.toLowerCase());
+    return questionText.toLowerCase().trim().includes(searchFilter.toLowerCase().trim());
   })
 
   async function handleDeleteQuestions() {
@@ -97,7 +97,7 @@ export default function QuestionsPage() {
       filteredQuestions.length > 0 ? <QuestionList
         questions={filteredQuestions}
         key={"question-list"}
-      /> : <p className="notice">No matching questions</p>,
+      /> : <p data-testid="no-matching-question-notice" className="notice">No matching questions</p>,
       <FloatingActionsBar key={"floating-actions-bar"}>
         <div className="floating-actions-bar__info">
           <p className="floating-actions-bar__text">

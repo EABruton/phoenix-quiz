@@ -13,7 +13,7 @@ export default function Searchbar({ placeholderText, ariaControls, ariaLabel, se
     <div role="search" aria-label={ariaLabel} className="searchbar">
       <input
       className="searchbar__input"
-      type="text"
+      type="search"
       placeholder={placeholderText}
       aria-controls={ariaControls}
       onChange={(e) => searchCallback(e.target.value)}
