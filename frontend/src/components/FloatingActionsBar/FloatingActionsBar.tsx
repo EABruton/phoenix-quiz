@@ -1,14 +1,12 @@
 import type { ReactNode } from "react";
-import  './FloatingActionsBar.css';
+import "./FloatingActionsBar.css";
 
 type FloatingActionsBarProps = {
-    children: ReactNode;
+  children: ReactNode;
 };
 
-export default function FloatingActionsBar({ children }: FloatingActionsBarProps) {
-    return (
-        <menu className='floating-actions-bar'>
-            {children}
-        </menu>
-    );
+export default function FloatingActionsBar({
+  children,
+}: FloatingActionsBarProps) {
+  return <menu className="floating-actions-bar">{children}</menu>;
 }

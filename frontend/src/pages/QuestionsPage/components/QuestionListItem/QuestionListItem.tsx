@@ -1,29 +1,33 @@
-import { RadioButtonChecked, RadioButtonUnchecked } from "../../../../assets/icons";
+import {
+  RadioButtonChecked,
+  RadioButtonUnchecked,
+} from "../../../../assets/icons";
 import type { Question } from "../../../../services/api/QuizzesService";
 import { useQuestionsPageContext } from "../../QuestionsPageContext";
-import styles from "./QuestionListItem.module.css";
+import "./QuestionListItem.css";
+
+type QuestionListItemProps = {
+  question: Question;
+};
 
 /**
  * Component to render a checkbox for selecting questions in the question list.
  * It uses the QuestionsPageContext to manage the state of selected questions.
- *
- * @param {Object} props - The component props.
- * @param {string} props.questionID - The ID of the question to be selected or deselected.
  */
-function QuestionListItemCheckbox({
-  questionID,
-}: { questionID: string }) {
+function QuestionListItemCheckbox({ questionID }: { questionID: string }) {
   const { selectedQuestions, setSelectedQuestions } = useQuestionsPageContext();
   const isQuestionSelected = selectedQuestions.includes(questionID);
 
   return (
-    <div className={styles["list-question__checkbox-container"]}>
+    <div className="list-question__checkbox-container">
       <label
-        className={styles["list-question__checkbox-label"]}
+        className="list-question__checkbox-label"
         htmlFor={"select-question-" + questionID}
-      ></label>
+      >
+        <span className="visually-hidden">Select question</span>
+      </label>
       <input
-        className={styles["list-question__checkbox"]}
+        className="list-question__checkbox"
         type="checkbox"
         name={"select-question-" + questionID}
         id={"select-question-" + questionID}
@@ -40,26 +44,31 @@ function QuestionListItemCheckbox({
           }
         }}
       />
-      <span className={styles["list-question__checkbox-custom"]}>
+      <span className="list-question__checkbox-custom">
         {isQuestionSelected ? <RadioButtonChecked /> : <RadioButtonUnchecked />}
       </span>
     </div>
   );
 }
 
+/**
+ *
+ * @param question - The question object containing the question text and ID.
+ * @param question.question_text - The text of the question.
+ * @param question.id - The unique identifier for the question.
+ * @returns A JSX element representing a list item for a question.
+ */
 export default function QuestionListItem({
   question: { question_text: questionText, id: key },
-}: { question: Question }) {
+}: QuestionListItemProps) {
   return (
     // TODO: replace with anchor link with link to question details
-    <div className={styles["list-question"]}>
-      <div className={[styles["list-question__column"], styles["list-question__column--text"]].join(" ")}>
+    <div className="list-question" data-testid={key}>
+      <div className="list-question__column list-question__column--text">
         <li>{questionText}</li>
       </div>
-      <div className={styles["list-question__column"]}>
-        <QuestionListItemCheckbox
-          questionID={key}
-        />
+      <div className="list-question__column">
+        <QuestionListItemCheckbox questionID={key} />
       </div>
     </div>
   );

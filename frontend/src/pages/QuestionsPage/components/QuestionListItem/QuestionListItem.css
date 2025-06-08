@@ -9,6 +9,10 @@
   justify-content: space-between;
 }
 
+.list-question[data-hidden="true"] {
+  display: none;
+}
+
 .list-question__column {
   align-items: center;
   display: flex;
@@ -82,4 +86,9 @@
     fill: var(--color-white);
     transition: transform 0.3s ease;
   }
+}
+
+.visually-hidden {
+  position: absolute;
+  opacity: 0;
 }
