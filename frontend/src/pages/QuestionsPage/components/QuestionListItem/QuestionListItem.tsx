@@ -23,6 +23,7 @@ function QuestionListItemCheckbox({ questionID }: { questionID: string }) {
       <label
         className="list-question__checkbox-label"
         htmlFor={"select-question-" + questionID}
+        data-testid={"label-for-" + questionID}
       >
         <span className="visually-hidden">Select question</span>
       </label>
@@ -63,13 +64,13 @@ export default function QuestionListItem({
 }: QuestionListItemProps) {
   return (
     // TODO: replace with anchor link with link to question details
-    <div className="list-question" data-testid={key}>
+    <li className="list-question" data-testid={key}>
       <div className="list-question__column list-question__column--text">
-        <li>{questionText}</li>
+        <span>{questionText}</span>
       </div>
       <div className="list-question__column">
         <QuestionListItemCheckbox questionID={key} />
       </div>
-    </div>
+    </li>
   );
 }

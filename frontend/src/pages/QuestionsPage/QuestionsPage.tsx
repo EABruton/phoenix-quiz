@@ -77,7 +77,7 @@ export default function QuestionsPage() {
     content = [
       <Searchbar
         ariaLabel="Search questions"
-        ariaControls="questions-list"
+        ariaControls="question-list"
         searchCallback={setSearchFilter}
         placeholderText="Search questions..."
         key={"searchbar"}
