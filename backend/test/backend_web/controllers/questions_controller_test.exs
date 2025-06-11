@@ -2,7 +2,6 @@ defmodule BackendWeb.QuestionsControllerTest do
   use BackendWeb.ConnCase
 
   import Backend.QuizzesFixtures
-  # alias Backend.Quizzes.Question
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -23,6 +22,14 @@ defmodule BackendWeb.QuestionsControllerTest do
       assert response(conn, 204)
 
       # TODO: whenever view individual question is setup, test that the deleted question URLs return a 404
+    end
+
+    test "renders error when invalid data type is given", %{conn: conn} do
+      question_ids = ["abc"]
+
+      assert_raise Ecto.Query.CastError, fn ->
+        delete(conn, ~p"/api/questions", question_ids: question_ids)
+      end
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
