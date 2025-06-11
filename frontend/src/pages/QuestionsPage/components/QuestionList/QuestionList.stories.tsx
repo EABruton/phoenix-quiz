@@ -12,12 +12,16 @@ const questionsDefault = [...Array(5)].map((_, i) => {
   };
 });
 
+const filteredQuestionIDsDefault = questionsDefault.map(
+  (question) => question.id,
+);
+
 const meta = {
   component: QuestionList,
   tags: ["autodocs"],
   args: {
     questions: questionsDefault,
-    filteredQuestionIDs: questionsDefault.map((question) => question.id),
+    filteredQuestionIDs: filteredQuestionIDsDefault,
   },
   decorators: [
     (Story, { parameters }) => {
@@ -41,8 +45,20 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Default: Story = {};
+
+export const Filtered: Story = {
   args: {
     ...meta.args,
+    filteredQuestionIDs: filteredQuestionIDsDefault.slice(
+      0,
+      questionsDefault.length - 1,
+    ),
+  },
+};
+
+export const Selected: Story = {
+  parameters: {
+    selectedQuestions: [filteredQuestionIDsDefault[0]],
   },
 };
