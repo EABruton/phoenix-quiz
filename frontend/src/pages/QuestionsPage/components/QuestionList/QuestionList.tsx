@@ -16,7 +16,7 @@ export default function QuestionList({
   filteredQuestionIDs,
 }: QuestionListProps) {
   return (
-    <ul className="question-list">
+    <ul className="question-list" id="question-list">
       {questions.map(
         (question) =>
           filteredQuestionIDs.includes(question.id) && (

@@ -23,6 +23,7 @@ function QuestionListItemCheckbox({ questionID }: { questionID: string }) {
       <label
         className="list-question__checkbox-label"
         htmlFor={"select-question-" + questionID}
+        data-testid={"label-for-" + questionID}
       >
         <span className="visually-hidden">Select question</span>
       </label>

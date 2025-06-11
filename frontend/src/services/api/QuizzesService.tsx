@@ -1,4 +1,5 @@
 import api from "./api";
+import Axios from "axios";
 
 export type Question = {
   question_text: string;
@@ -26,6 +27,10 @@ async function getQuestions(
     const { data } = await api.get("/questions", { signal: abortSignal });
     return [data.data, null];
   } catch (error) {
+    if (Axios.isAxiosError(error) && error.response) {
+      return [null, Error(error.response.data)];
+    }
+
     console.error(error);
     return [null, error as Error];
   }
