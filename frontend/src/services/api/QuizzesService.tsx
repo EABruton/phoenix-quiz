@@ -1,5 +1,4 @@
 import api from "./api";
-import Axios from "axios";
 
 export type Question = {
   question_text: string;
@@ -16,6 +15,7 @@ async function deleteQuestions(
     });
     return [response.status, null];
   } catch (error) {
+    console.error("Unable to delete questions");
     return [null, error as Error];
   }
 }
@@ -27,11 +27,7 @@ async function getQuestions(
     const { data } = await api.get("/questions", { signal: abortSignal });
     return [data.data, null];
   } catch (error) {
-    if (Axios.isAxiosError(error) && error.response) {
-      return [null, Error(error.response.data)];
-    }
-
-    console.error(error);
+    console.error("Unable to fetch questions");
     return [null, error as Error];
   }
 }
