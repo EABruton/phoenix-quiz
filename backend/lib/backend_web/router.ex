@@ -1,5 +1,6 @@
 defmodule BackendWeb.Router do
   use BackendWeb, :router
+  use Plug.ErrorHandler
 
   pipeline :browser do
     plug :accepts, ["html", "json"]
@@ -40,5 +41,21 @@ defmodule BackendWeb.Router do
     pipe_through :browser
 
     get "/*path", ReactController, :index
+  end
+
+  @impl Plug.ErrorHandler
+  def handle_errors(conn, %{reason: %Ecto.Query.CastError{}}) do
+    conn
+    |> put_status(:bad_request)
+    |> put_view(BackendWeb.ErrorJSON)
+    |> render(:"400")
+  end
+
+  @impl Plug.ErrorHandler
+  def handle_errors(conn, %{reason: _}) do
+    conn
+    |> put_status(:internal_server_error)
+    |> put_view(BackendWeb.ErrorJSON)
+    |> render(:"500")
   end
 end
