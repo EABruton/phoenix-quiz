@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 
 const QuestionsPageContext = createContext<{
   selectedQuestions: string[];
-  setSelectedQuestions: (updater: (prev: string[]) => string[]) => void;
+  setSelectedQuestions: React.Dispatch<React.SetStateAction<string[]>>
 }>({
   selectedQuestions: [],
   setSelectedQuestions: () => {},
