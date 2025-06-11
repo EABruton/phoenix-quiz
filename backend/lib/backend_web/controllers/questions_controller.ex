@@ -1,6 +1,5 @@
 defmodule BackendWeb.QuestionsController do
   use BackendWeb, :controller
-  require Logger
   alias Backend.Quizzes
 
   action_fallback BackendWeb.FallbackController
