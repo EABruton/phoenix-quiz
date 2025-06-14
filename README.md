@@ -36,5 +36,5 @@ Active development
 
 ## Links
 
-[Jira](https://ethbruton.atlassian.net/jira/software/projects/ECS/boards/1)
-[Figma](https://www.figma.com/design/HffsrBBXC7zmGKKKqJ6LhR/PhoenixQuiz?node-id=1-3&p=f&t=z3Rdhq7Hx9FO0WA7-0)
+- [Jira](https://ethbruton.atlassian.net/jira/software/projects/ECS/boards/1)
+- [Figma](https://www.figma.com/design/HffsrBBXC7zmGKKKqJ6LhR/PhoenixQuiz?node-id=1-3&p=f&t=z3Rdhq7Hx9FO0WA7-0)
