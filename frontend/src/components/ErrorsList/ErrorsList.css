@@ -9,6 +9,7 @@
 .errors-list__clear-all {
   background-color: var(--color-error);
   border: 1px solid var(--color-error);
+  border-radius: 6px;
   box-shadow: var(--box-shadow-base);
   color: var(--color-white);
   font-size: var(--font-size-body);

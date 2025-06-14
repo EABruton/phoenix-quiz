@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import QuestionsPage from "./QuestionsPage";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse, delay } from "msw";
 import type { Question } from "../../services/api/QuizzesService";
 
 const data: Question[] = [
@@ -20,6 +20,11 @@ const data: Question[] = [
     id: "3",
   },
 ];
+
+const getHandlerDelay = http.get("*/api/questions", async () => {
+  await delay(3000);
+  return HttpResponse.json({ data: data });
+});
 
 const getHandlerSuccess = http.get("*/api/questions", async () => {
   return HttpResponse.json({ data: data });
@@ -52,6 +57,15 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {},
+};
+
+export const Loading: Story = {
+  args: {},
+  parameters: {
+    msw: {
+      handlers: [getHandlerDelay, deleteHandlerSuccess],
+    },
+  },
 };
 
 export const GetQuestionsError: Story = {

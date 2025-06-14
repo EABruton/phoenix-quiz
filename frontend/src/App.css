@@ -16,3 +16,7 @@
   font-weight: 400;
   margin: 24px 0;
 }
+
+.error-text {
+  color: var(--color-error);
+}
