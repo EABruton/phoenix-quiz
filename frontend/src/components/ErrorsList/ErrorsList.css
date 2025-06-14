@@ -1,0 +1,83 @@
+.errors-list {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  --button-width: 48px;
+}
+
+.errors-list__clear-all {
+  background-color: var(--color-error);
+  border: 1px solid var(--color-error);
+  border-radius: 6px;
+  box-shadow: var(--box-shadow-base);
+  color: var(--color-white);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: 300ms;
+}
+
+.errors-list__clear-all:is(:hover, :focus) {
+  outline: none;
+  background-color: var(--color-white);
+  color: var(--color-error);
+  transform: scale(1.01);
+}
+
+.errors-list__list {
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.errors-list__error-message {
+  align-items: start;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-error);
+  border-radius: 6px;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 5fr var(--button-width);
+  padding: 8px 12px;
+}
+
+.errors-list__error-message-text {
+  align-self: center;
+  color: var(--color-error);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.errors-list__clear-error {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-error);
+  border-radius: 6px;
+  cursor: pointer;
+  height: var(--button-width);
+  padding: 0;
+  transition: 300ms;
+  width: 100%;
+
+  svg,
+  path {
+    fill: var(--color-error);
+  }
+}
+
+.errors-list__clear-error:is(:hover, :focus) {
+  background-color: var(--color-error);
+  outline: none;
+  transform: scale(1.1);
+
+  svg,
+  path {
+    fill: var(--color-white);
+  }
+}

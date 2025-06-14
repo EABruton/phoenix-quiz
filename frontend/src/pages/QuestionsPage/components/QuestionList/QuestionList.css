@@ -1,7 +1,6 @@
 .question-list {
   display: grid;
   gap: 16px;
-  grid-area: questions;
   grid-auto-rows: 48px;
   list-style-type: none;
   margin: 0;

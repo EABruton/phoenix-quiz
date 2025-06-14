@@ -10,99 +10,30 @@ import {
   SelectAllButton,
   DeselectAllButton,
 } from "./components/SelectButtons/SelectButtons";
+import ErrorsList from "../../components/ErrorsList/ErrorsList";
 
-export default function QuestionsPage() {
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
-  const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]);
-  const [searchFilter, setSearchFilter] = useState<string>("");
+type ActionsBarProps = {
+  selectedQuestions: string[];
+  filteredQuestionIDs: string[];
+  handleDeleteQuestions: () => void;
+  setSelectedQuestions: React.Dispatch<React.SetStateAction<string[]>>;
+  questionsCount: number;
+};
 
-  const filteredQuestionIDs = questions
-    .filter(({ question_text: questionText }) => {
-      if (searchFilter.trim().length < 1) return true;
-
-      return questionText
-        .toLowerCase()
-        .trim()
-        .includes(searchFilter.toLowerCase().trim());
-    })
-    .map((question) => question.id);
-
-  async function handleDeleteQuestions() {
-    const [_, error] = await QuizzesService.deleteQuestions(selectedQuestions);
-
-    if (error) {
-      console.error("Error deleting questions: ", error.message);
-    } else {
-      setQuestions(
-        questions.filter(
-          (question) => !selectedQuestions.includes(question.id),
-        ),
-      );
-      setSelectedQuestions([]);
-    }
-  }
-
-  useEffect(() => {
-    const [controller, fetchQuestions] = QuizzesService.fetchQuestions();
-
-    fetchQuestions()
-      .then(([data, err]) => {
-        if (err) {
-          console.error("Error fetching questions: ", err.message);
-          setError(err as Error);
-        } else {
-          setError(null);
-          setQuestions(data!);
-        }
-
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching questions: ", err.message);
-        setError(err as Error);
-        setIsLoading(false);
-      });
-
-    return () => {
-      controller.abort();
-    };
-  }, []);
-
-  let content;
-  if (error) content = <p data-testid="error-text">Error: {error.message}</p>;
-  else if (isLoading) content = <p data-testid="loading-text">Loading...</p>;
-  else {
-    content = [
-      <Searchbar
-        ariaLabel="Search questions"
-        ariaControls="question-list"
-        searchCallback={setSearchFilter}
-        placeholderText="Search questions..."
-        key={"searchbar"}
-      />,
-      filteredQuestionIDs.length > 0 ? (
-        <QuestionList
-          questions={questions}
-          filteredQuestionIDs={filteredQuestionIDs}
-          key={"question-list"}
-        />
-      ) : (
-        <p
-          key={"no-matching-question-notice"}
-          data-testid="no-matching-question-notice"
-          id="no-matching-question-notice"
-          className="notice"
-        >
-          No matching questions
-        </p>
-      ),
+function ActionsBar({
+  selectedQuestions,
+  filteredQuestionIDs,
+  handleDeleteQuestions,
+  setSelectedQuestions,
+  questionsCount,
+}: ActionsBarProps) {
+  return (
+    <aside className="questions-page__actions">
       <FloatingActionsBar key={"floating-actions-bar"}>
         <div className="floating-actions-bar__info">
           <p className="floating-actions-bar__text">
             <span>Total Questions:</span>
-            <span data-testid="total-questions-count">{questions.length}</span>
+            <span data-testid="total-questions-count">{questionsCount}</span>
           </p>
           <p className="floating-actions-bar__text">
             <span>Selected Questions:</span>
@@ -133,13 +64,143 @@ export default function QuestionsPage() {
           filteredQuestionIDs={filteredQuestionIDs}
           selectedQuestionIDs={selectedQuestions}
         />
-      </FloatingActionsBar>,
-    ];
+      </FloatingActionsBar>
+    </aside>
+  );
+}
+
+export default function QuestionsPage() {
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [contentError, setContentError] = useState<Error | null>(null);
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]);
+  const [searchFilter, setSearchFilter] = useState<string>("");
+
+  const shouldShowComponents = !isLoading && !contentError;
+
+  const filteredQuestionIDs = questions
+    .filter(({ question_text: questionText }) => {
+      if (searchFilter.trim().length < 1) return true;
+
+      return questionText
+        .toLowerCase()
+        .trim()
+        .includes(searchFilter.toLowerCase().trim());
+    })
+    .map((question) => question.id);
+
+  async function handleDeleteQuestions() {
+    const [_, error] = await QuizzesService.deleteQuestions(selectedQuestions);
+
+    if (error) {
+      console.error("Error deleting questions: ", error.message);
+      setErrorMessages([error.message]);
+    } else {
+      setQuestions(
+        questions.filter(
+          (question) => !selectedQuestions.includes(question.id),
+        ),
+      );
+      setSelectedQuestions([]);
+    }
+  }
+
+  useEffect(() => {
+    const [controller, fetchQuestions] = QuizzesService.fetchQuestions();
+
+    fetchQuestions()
+      .then(([data, err]) => {
+        if (err) {
+          console.error("Error fetching questions: ", err.message);
+          setContentError(err as Error);
+        } else {
+          setContentError(null);
+          setQuestions(data!);
+        }
+
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching questions: ", err.message);
+        setContentError(err as Error);
+        setIsLoading(false);
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
+  let content;
+  if (contentError)
+    content = (
+      <p
+        className="questions-page__notice-text error-text"
+        data-testid="error-text"
+      >
+        Error: {contentError.message}
+      </p>
+    );
+  else if (isLoading)
+    content = (
+      <p className="questions-page__notice-text" data-testid="loading-text">
+        Loading...
+      </p>
+    );
+  else {
+    content =
+      filteredQuestionIDs.length > 0 ? (
+        <QuestionList
+          questions={questions}
+          filteredQuestionIDs={filteredQuestionIDs}
+          key={"question-list"}
+        />
+      ) : (
+        <p
+          key={"no-matching-question-notice"}
+          data-testid="no-matching-question-notice"
+          className="notice"
+        >
+          No matching questions
+        </p>
+      );
   }
 
   return (
     <QuestionsPageProvider value={{ selectedQuestions, setSelectedQuestions }}>
-      <main id="questions-page">{content}</main>
+      <main id="questions-page">
+        <header className="questions-page__header">
+          <h1 className="questions-page__heading">Manage Your Questions</h1>
+          {shouldShowComponents && (
+            <Searchbar
+              ariaLabel="Search questions"
+              ariaControls="question-list"
+              searchCallback={setSearchFilter}
+              placeholderText="Search questions..."
+              key={"searchbar"}
+            />
+          )}
+        </header>
+        <section className="questions-page__content">
+          {errorMessages.length > 0 && (
+            <ErrorsList
+              errorMessages={errorMessages}
+              setErrorMessages={setErrorMessages}
+            />
+          )}
+          {content}
+        </section>
+        {shouldShowComponents && (
+          <ActionsBar
+            selectedQuestions={selectedQuestions}
+            filteredQuestionIDs={filteredQuestionIDs}
+            handleDeleteQuestions={handleDeleteQuestions}
+            setSelectedQuestions={setSelectedQuestions}
+            questionsCount={questions.length}
+          />
+        )}
+      </main>
     </QuestionsPageProvider>
   );
 }

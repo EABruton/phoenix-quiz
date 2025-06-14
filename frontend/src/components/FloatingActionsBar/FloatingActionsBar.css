@@ -1,5 +1,4 @@
 .floating-actions-bar {
-  grid-area: actions;
   background-color: var(--color-secondary);
   border-radius: 8px;
   box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.5);
