@@ -74,6 +74,7 @@
 .errors-list__clear-error:is(:hover, :focus) {
   background-color: var(--color-error);
   outline: none;
+  transform: scale(1.1);
 
   svg,
   path {
