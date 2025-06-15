@@ -18,11 +18,12 @@ defmodule Backend.QuizzesTest do
       for _ <- 1..total_questions, do: question_fixture()
 
       response = Quizzes.list_questions(current_page, results_per_page)
+
       assert %{
-        current_page: current_page,
-        total_pages: total_pages,
-        total_count: total_questions
-      } == Map.drop(response, [:data])
+               current_page: current_page,
+               total_pages: total_pages,
+               total_count: total_questions
+             } == Map.drop(response, [:data])
     end
 
     test "get_question!/1 returns the question with given id" do

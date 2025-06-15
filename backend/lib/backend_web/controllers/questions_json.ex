@@ -12,7 +12,7 @@ defmodule BackendWeb.QuestionsJSON do
     %{
       question_text: question.question_text,
       answer_text: question.answer_text,
-      id: question.id,
+      id: question.id
     }
   end
 
