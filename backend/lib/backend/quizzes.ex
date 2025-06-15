@@ -31,12 +31,16 @@ defmodule Backend.Quizzes do
         limit: ^limit,
         offset: ^offset,
         # TODO: Consider getting rid of this, as the answers usually aren't being used
-        left_join: a in assoc(q, :answers),
-        preload: [answers: a],
+        # left_join: a in assoc(q, :answers),
+        # preload: [answers: a],
         order_by: [desc: q.inserted_at]
       )
 
-    Repo.all(query)
+    questions = Repo.all(query)
+    total_count = Repo.aggregate(Question, :count)
+    total_pages = trunc(Float.ceil(total_count / results_per_page))
+
+    %{data: questions, total_count: total_count, total_pages: total_pages, current_page: page}
   end
 
   @doc """

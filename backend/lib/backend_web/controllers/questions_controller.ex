@@ -7,8 +7,8 @@ defmodule BackendWeb.QuestionsController do
   def index(conn, %{"page" => page}) do
     case Integer.parse(page) do
       {page_num, _} ->
-        questions = Quizzes.list_questions(page_num)
-        render(conn, :index, questions: questions)
+        question_data = Quizzes.list_questions(page_num)
+        render(conn, :index, question_data)
 
       :error ->
         {:error, :bad_request, reason: "Invalid page number"}

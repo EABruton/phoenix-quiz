@@ -10,12 +10,19 @@ defmodule Backend.QuizzesTest do
 
     @invalid_attrs %{question_text: nil, answer_text: nil}
 
-    test "list_questions/1 returns amount of questions equal to results per page" do
+    test "list_questions/1 returns correct metadata around pagination" do
       results_per_page = 5
-      for _ <- 1..(results_per_page + 1), do: question_fixture()
+      total_questions = results_per_page + 1
+      total_pages = 2
+      current_page = 1
+      for _ <- 1..total_questions, do: question_fixture()
 
-      results_len = length(Quizzes.list_questions(1, results_per_page))
-      assert results_len == results_per_page
+      response = Quizzes.list_questions(current_page, results_per_page)
+      assert %{
+        current_page: current_page,
+        total_pages: total_pages,
+        total_count: total_questions
+      } == Map.drop(response, [:data])
     end
 
     test "get_question!/1 returns the question with given id" do

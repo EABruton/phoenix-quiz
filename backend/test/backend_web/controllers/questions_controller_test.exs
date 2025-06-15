@@ -12,6 +12,11 @@ defmodule BackendWeb.QuestionsControllerTest do
       conn = get(conn, ~p"/api/questions?page=1")
       assert json_response(conn, 200)["data"] == []
     end
+
+    test "renders error when invalid query params given", %{conn: conn} do
+      conn = get(conn, ~p"/api/questions?page=a")
+      assert json_response(conn, 400)["message"] == "Invalid page number"
+    end
   end
 
   describe "delete" do
