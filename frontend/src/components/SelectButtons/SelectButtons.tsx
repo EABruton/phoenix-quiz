@@ -23,13 +23,11 @@ export function DeselectAllButton({
   }
 
   // if none of the selected questions are visible, disable the button
-  const isDisabled = !filteredIDs.some((id) =>
-    selectedIDs.includes(id),
-  );
+  const isDisabled = !filteredIDs.some((id) => selectedIDs.includes(id));
 
   return (
     <button
-      className="floating-actions-bar__button floating-actions-bar__button--select"
+      className="deselect-button select-deselect-button"
       onClick={deselectVisibleQuestions}
       data-testid="deselect-all-ids"
       disabled={isDisabled}
@@ -49,16 +47,14 @@ export function SelectAllButton({
   // adds the filtered IDs to the current selection of IDs if not already present
   function addVisibleQuestionsToSelected() {
     setSelectedIDs((currentIDs) => {
-      const newIDs = filteredIDs.filter(
-        (id) => !currentIDs.includes(id),
-      );
+      const newIDs = filteredIDs.filter((id) => !currentIDs.includes(id));
       return [...newIDs, ...currentIDs];
     });
   }
 
   return (
     <button
-      className="floating-actions-bar__button floating-actions-bar__button--select"
+      className="select-button select-deselect-button"
       onClick={addVisibleQuestionsToSelected}
       data-testid="select-all-ids"
     >

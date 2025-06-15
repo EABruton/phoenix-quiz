@@ -14,7 +14,8 @@
   width: 100%;
 }
 
-.floating-actions-bar__button {
+.floating-actions-bar
+  :is(.select-deselect-button, .floating-actions-bar__button) {
   border: 1px solid var(--color-primary);
   color: var(--color-primary);
   font-size: var(--font-size-body);
@@ -25,14 +26,19 @@
   transition: 0.3s ease;
 }
 
-.floating-actions-bar__button:not(:disabled):is(:hover, :focus) {
+.floating-actions-bar
+  :is(.select-deselect-button, .floating-actions-bar__button):not(:disabled):is(
+    :hover,
+    :focus
+  ) {
   outline: none;
   transform: scale(1.1);
   background-color: var(--color-primary);
   color: var(--color-secondary);
 }
 
-.floating-actions-bar__button:disabled {
+.floating-actions-bar
+  :is(.select-deselect-button, .floating-actions-bar__button):disabled {
   background-color: transparent;
   border-color: var(--color-surface);
   color: var(--color-surface);

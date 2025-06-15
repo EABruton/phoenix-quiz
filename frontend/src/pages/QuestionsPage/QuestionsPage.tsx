@@ -115,7 +115,8 @@ export default function QuestionsPage() {
   // it'd be possible to keep ALL results in questions, and only display a certain range
   // or it might be better to hold cached results in a separate location
   useEffect(() => {
-    const [controller, fetchQuestions] = QuizzesService.fetchQuestions(currentPage);
+    const [controller, fetchQuestions] =
+      QuizzesService.fetchQuestions(currentPage);
 
     fetchQuestions()
       .then(([response, err]) => {
@@ -125,12 +126,9 @@ export default function QuestionsPage() {
         } else {
           setContentError(null);
 
-	  const {
-	    total_pages: totalPageCount,
-	    data,
-	  } = response!;
+          const { total_pages: totalPageCount, data } = response!;
 
-	  setTotalPageNumbers(totalPageCount);
+          setTotalPageNumbers(totalPageCount);
           setQuestions(data!);
         }
 
@@ -205,7 +203,11 @@ export default function QuestionsPage() {
             />
           )}
           {content}
-	  <PaginationController currentPageNumber={currentPage} totalPageNumbers={totalPageNumbers} setPageNumber={setCurrentPage} />
+          <PaginationController
+            currentPageNumber={currentPage}
+            totalPageNumbers={totalPageNumbers}
+            setPageNumber={setCurrentPage}
+          />
         </section>
         {shouldShowComponents && (
           <ActionsBar

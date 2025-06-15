@@ -11,7 +11,7 @@ export type QuestionListResponse = {
   total_count: number;
   total_pages: number;
   current_page: number;
-}
+};
 
 async function deleteQuestions(
   questionIDs: string[],
@@ -32,9 +32,12 @@ async function getQuestions(
   pageNumber: number,
 ): Promise<[QuestionListResponse | null, Error | null]> {
   try {
-    const { data: responseData } = await api.get("/questions?page=" + pageNumber, {
-      signal: abortSignal,
-    });
+    const { data: responseData } = await api.get(
+      "/questions?page=" + pageNumber,
+      {
+        signal: abortSignal,
+      },
+    );
 
     return [responseData, null];
   } catch (error) {
@@ -45,7 +48,10 @@ async function getQuestions(
 
 function fetchQuestions(
   pageNumber: number = 1,
-): [AbortController, () => Promise<[QuestionListResponse | null, Error | null]>] {
+): [
+  AbortController,
+  () => Promise<[QuestionListResponse | null, Error | null]>,
+] {
   const controller = new AbortController();
 
   const func = async () => await getQuestions(controller.signal, pageNumber);

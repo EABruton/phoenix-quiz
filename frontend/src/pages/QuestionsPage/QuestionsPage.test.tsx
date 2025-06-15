@@ -16,8 +16,10 @@
 import userEvent from "@testing-library/user-event";
 import { render, screen, within } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import type { Question, QuestionListResponse } from "../../services/api/QuizzesService";
-
+import type {
+  Question,
+  QuestionListResponse,
+} from "../../services/api/QuizzesService";
 
 const resultsCount = 3;
 const questionsData: Question[] = [...Array(resultsCount)].map((_, i) => ({
@@ -31,7 +33,7 @@ const responseData: QuestionListResponse = {
   total_pages: 1,
   current_page: 1,
   data: questionsData,
-}
+};
 const questionTestIDs = questionsData.map((question) => question.id);
 
 const mockAbortController = new AbortController();
