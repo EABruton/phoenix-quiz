@@ -10,10 +10,12 @@ defmodule Backend.QuizzesTest do
 
     @invalid_attrs %{question_text: nil, answer_text: nil}
 
-    test "list_questions/0 returns all questions" do
-      question = question_fixture()
-      question = Backend.Repo.preload(question, :answers)
-      assert Quizzes.list_questions() == [question]
+    test "list_questions/1 returns amount of questions equal to results per page" do
+      results_per_page = 5
+      for _ <- 1..(results_per_page + 1), do: question_fixture()
+
+      results_len = length(Quizzes.list_questions(1, results_per_page))
+      assert results_len == results_per_page
     end
 
     test "get_question!/1 returns the question with given id" do

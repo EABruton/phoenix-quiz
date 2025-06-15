@@ -4,9 +4,15 @@ defmodule BackendWeb.QuestionsController do
 
   action_fallback BackendWeb.FallbackController
 
-  def index(conn, _params) do
-    questions = Quizzes.list_questions()
-    render(conn, :index, questions: questions)
+  def index(conn, %{"page" => page}) do
+    case Integer.parse(page) do
+      {page_num, _} ->
+        questions = Quizzes.list_questions(page_num)
+        render(conn, :index, questions: questions)
+
+      :error ->
+        {:error, :bad_request, reason: "Invalid page number"}
+    end
   end
 
   def batch_delete(conn, %{"question_ids" => question_ids}) do

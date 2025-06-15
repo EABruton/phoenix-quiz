@@ -9,7 +9,7 @@ defmodule BackendWeb.QuestionsControllerTest do
 
   describe "index" do
     test "list all questions", %{conn: conn} do
-      conn = get(conn, ~p"/api/questions")
+      conn = get(conn, ~p"/api/questions?page=1")
       assert json_response(conn, 200)["data"] == []
     end
   end

@@ -12,11 +12,14 @@ defmodule BackendWeb.ErrorJSON do
   #   %{errors: %{detail: "Internal Server Error"}}
   # end
 
+  def render("400.son", %{reason: reason}), do: %{message: reason}
+  def render(:"400", %{reason: reason}), do: %{message: reason}
   def render(:"400", _assigns), do: %{message: "Bad Request"}
   def render(:"401", _assigns), do: %{message: "Unauthorized"}
   def render(:"403", _assigns), do: %{message: "Forbidden"}
   def render(:"404", _assigns), do: %{message: "Not Found"}
   def render(:"500", _assigns), do: %{message: "Internal Server Error"}
+  def render(_, %{reason: reason}), do: %{message: reason}
   def render(_, _assigns), do: %{message: "Internal Server Error"}
 
   # By default, Phoenix returns the status message from

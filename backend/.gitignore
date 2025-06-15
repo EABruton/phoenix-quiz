@@ -27,3 +27,6 @@ backend-*.tar
 
 .env
 .env*
+
+# for doing things like curling an endpoint
+test_commands.sh
