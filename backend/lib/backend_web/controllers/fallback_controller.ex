@@ -22,6 +22,14 @@ defmodule BackendWeb.FallbackController do
     |> render(:"400")
   end
 
+  def call(conn, {:error, :bad_request, reason: reason}) do
+    conn
+    |> put_status(:bad_request)
+    |> assign(:reason, reason)
+    |> put_view(json: BackendWeb.ErrorJSON)
+    |> render(:"400")
+  end
+
   def call(conn, {:error, _}) do
     conn
     |> put_status(:internal_server_error)

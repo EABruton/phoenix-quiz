@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import QuestionsPage from "./QuestionsPage";
 import { http, HttpResponse, delay } from "msw";
-import type { Question } from "../../services/api/QuizzesService";
+import type {
+  Question,
+  QuestionListResponse,
+} from "../../services/api/QuizzesService";
 
-const data: Question[] = [
+const questions: Question[] = [
   {
     question_text: "What is the capital of France?",
     answer_text: "Paris",
@@ -21,13 +24,20 @@ const data: Question[] = [
   },
 ];
 
+const responseData: QuestionListResponse = {
+  total_count: 20,
+  current_page: 1,
+  total_pages: 2,
+  data: questions,
+};
+
 const getHandlerDelay = http.get("*/api/questions", async () => {
   await delay(3000);
-  return HttpResponse.json({ data: data });
+  return HttpResponse.json(responseData);
 });
 
 const getHandlerSuccess = http.get("*/api/questions", async () => {
-  return HttpResponse.json({ data: data });
+  return HttpResponse.json(responseData);
 });
 
 const deleteHandlerSuccess = http.delete("*/api/questions", async () => {

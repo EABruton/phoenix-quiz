@@ -9,8 +9,9 @@ import QuestionList from "./components/QuestionList/QuestionList";
 import {
   SelectAllButton,
   DeselectAllButton,
-} from "./components/SelectButtons/SelectButtons";
+} from "../../components/SelectButtons/SelectButtons";
 import ErrorsList from "../../components/ErrorsList/ErrorsList";
+import PaginationController from "../../components/PagionationController/PagionationController";
 
 type ActionsBarProps = {
   selectedQuestions: string[];
@@ -29,7 +30,7 @@ function ActionsBar({
 }: ActionsBarProps) {
   return (
     <aside className="questions-page__actions">
-      <FloatingActionsBar key={"floating-actions-bar"}>
+      <FloatingActionsBar>
         <div className="floating-actions-bar__info">
           <p className="floating-actions-bar__text">
             <span>Total Questions:</span>
@@ -56,13 +57,13 @@ function ActionsBar({
           Delete Selected
         </button>
         <SelectAllButton
-          setSelectedQuestions={setSelectedQuestions}
-          filteredQuestionIDs={filteredQuestionIDs}
+          setSelectedIDs={setSelectedQuestions}
+          filteredIDs={filteredQuestionIDs}
         />
         <DeselectAllButton
-          setSelectedQuestions={setSelectedQuestions}
-          filteredQuestionIDs={filteredQuestionIDs}
-          selectedQuestionIDs={selectedQuestions}
+          setSelectedIDs={setSelectedQuestions}
+          filteredIDs={filteredQuestionIDs}
+          selectedIDs={selectedQuestions}
         />
       </FloatingActionsBar>
     </aside>
@@ -76,7 +77,12 @@ export default function QuestionsPage() {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]);
   const [searchFilter, setSearchFilter] = useState<string>("");
+  // for paginated results: what page of questions to fetch
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPageNumbers, setTotalPageNumbers] = useState<number>(1);
+  const [totalQuestionCount, setTotalQuestionCount] = useState<number>(0);
 
+  // determines whether to show the searchbar + actions floating menu
   const shouldShowComponents = !isLoading && !contentError;
 
   const filteredQuestionIDs = questions
@@ -106,16 +112,29 @@ export default function QuestionsPage() {
     }
   }
 
+  // TODO: find a good way to implement caching when switching pages
+  // it'd be possible to keep ALL results in questions, and only display a certain range
+  // or it might be better to hold cached results in a separate location
   useEffect(() => {
-    const [controller, fetchQuestions] = QuizzesService.fetchQuestions();
+    const [controller, fetchQuestions] =
+      QuizzesService.fetchQuestions(currentPage);
 
     fetchQuestions()
-      .then(([data, err]) => {
+      .then(([response, err]) => {
         if (err) {
           console.error("Error fetching questions: ", err.message);
           setContentError(err as Error);
         } else {
           setContentError(null);
+
+          const {
+            total_pages: totalPageCount,
+            total_count: totalCount,
+            data,
+          } = response!;
+
+          setTotalQuestionCount(totalCount);
+          setTotalPageNumbers(totalPageCount);
           setQuestions(data!);
         }
 
@@ -130,7 +149,7 @@ export default function QuestionsPage() {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [currentPage]);
 
   let content;
   if (contentError)
@@ -190,6 +209,13 @@ export default function QuestionsPage() {
             />
           )}
           {content}
+          {shouldShowComponents && (
+            <PaginationController
+              currentPageNumber={currentPage}
+              totalPageNumbers={totalPageNumbers}
+              setPageNumber={setCurrentPage}
+            />
+          )}
         </section>
         {shouldShowComponents && (
           <ActionsBar
@@ -197,7 +223,7 @@ export default function QuestionsPage() {
             filteredQuestionIDs={filteredQuestionIDs}
             handleDeleteQuestions={handleDeleteQuestions}
             setSelectedQuestions={setSelectedQuestions}
-            questionsCount={questions.length}
+            questionsCount={totalQuestionCount}
           />
         )}
       </main>

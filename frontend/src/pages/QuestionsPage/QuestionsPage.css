@@ -19,9 +19,10 @@ main#questions-page {
 
 .questions-page__content {
   display: flex;
-  gap: 8px;
   flex-direction: column;
+  gap: 12px;
   grid-area: content;
+  height: 100%;
 }
 
 .questions-page__content:has(.questions-page__notice-text) {

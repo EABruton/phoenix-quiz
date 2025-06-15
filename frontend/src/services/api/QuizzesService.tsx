@@ -6,6 +6,13 @@ export type Question = {
   id: string;
 };
 
+export type QuestionListResponse = {
+  data: Question[];
+  total_count: number;
+  total_pages: number;
+  current_page: number;
+};
+
 async function deleteQuestions(
   questionIDs: string[],
 ): Promise<[number | null, Error | null]> {
@@ -22,23 +29,32 @@ async function deleteQuestions(
 
 async function getQuestions(
   abortSignal: AbortSignal,
-): Promise<[Question[] | null, Error | null]> {
+  pageNumber: number,
+): Promise<[QuestionListResponse | null, Error | null]> {
   try {
-    const { data } = await api.get("/questions", { signal: abortSignal });
-    return [data.data, null];
+    const { data: responseData } = await api.get(
+      "/questions?page=" + pageNumber,
+      {
+        signal: abortSignal,
+      },
+    );
+
+    return [responseData, null];
   } catch (error) {
     console.error("Unable to fetch questions");
     return [null, error as Error];
   }
 }
 
-function fetchQuestions(): [
+function fetchQuestions(
+  pageNumber: number = 1,
+): [
   AbortController,
-  () => Promise<[Question[] | null, Error | null]>,
+  () => Promise<[QuestionListResponse | null, Error | null]>,
 ] {
   const controller = new AbortController();
 
-  const func = async () => await getQuestions(controller.signal);
+  const func = async () => await getQuestions(controller.signal, pageNumber);
 
   return [controller, func];
 }

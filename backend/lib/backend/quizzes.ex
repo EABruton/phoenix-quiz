@@ -10,23 +10,33 @@ defmodule Backend.Quizzes do
 
   alias Backend.Quizzes.Question
 
+  @results_per_page 10
+
   @doc """
   Returns the list of questions.
 
   ## Examples
 
-      iex> list_questions()
+      iex> list_questions(1)
       [%Question{}, ...]
 
   """
-  def list_questions do
+  def list_questions(page, results_per_page \\ @results_per_page) do
+    # page 1 means no offset
+    offset = results_per_page * (page - 1)
+
     query =
       from(q in Question,
-        left_join: a in assoc(q, :answers),
-        preload: [answers: a]
+        limit: ^results_per_page,
+        offset: ^offset,
+        order_by: [desc: q.inserted_at, desc: q.id]
       )
 
-    Repo.all(query)
+    questions = Repo.all(query)
+    total_count = Repo.aggregate(Question, :count)
+    total_pages = trunc(Float.ceil(total_count / results_per_page))
+
+    %{data: questions, total_count: total_count, total_pages: total_pages, current_page: page}
   end
 
   @doc """

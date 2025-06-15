@@ -3,6 +3,8 @@
 
 :root {
   --box-shadow-base: 3px 3px 4px rgba(0, 0, 0, 0.5);
+  --screen-size-mobile: 385px;
+  --screen-size-tablet: 650px;
 }
 
 *,

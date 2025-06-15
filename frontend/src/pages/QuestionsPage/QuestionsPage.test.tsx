@@ -16,14 +16,25 @@
 import userEvent from "@testing-library/user-event";
 import { render, screen, within } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import type { Question } from "../../services/api/QuizzesService";
+import type {
+  Question,
+  QuestionListResponse,
+} from "../../services/api/QuizzesService";
 
-const responseData: Question[] = [...Array(3)].map((_, i) => ({
+const resultsCount = 3;
+const questionsData: Question[] = [...Array(resultsCount)].map((_, i) => ({
   question_text: `q${i} question text`,
   answer_text: `q${i} answer text`,
   id: `q${i} ID`,
 }));
-const questionTestIDs = responseData.map((question) => question.id);
+
+const responseData: QuestionListResponse = {
+  total_count: resultsCount,
+  total_pages: 1,
+  current_page: 1,
+  data: questionsData,
+};
+const questionTestIDs = questionsData.map((question) => question.id);
 
 const mockAbortController = new AbortController();
 const mockFetchQuestions = jest.fn();
@@ -38,8 +49,8 @@ import QuestionsPage from "./QuestionsPage";
 // Selectors
 const sLoadingText = "loading-text";
 const sErrorText = "error-text";
-const sSelectAll = "select-all-questions";
-const sDeselectAll = "deselect-all-questions";
+const sSelectAll = "select-all-ids";
+const sDeselectAll = "deselect-all-ids";
 const sTotalQuestions = "total-questions-count";
 const sSelectedQuestions = "selected-questions-count";
 const sVisibleQuestions = "visible-questions-count";
@@ -60,7 +71,7 @@ test("renders list of questions from response data", async () => {
   expect(await screen.findByTestId("loading-text")).toBeVisible();
 
   // expect(await loadingText).not.toBeVisible();
-  for await (const { question_text } of responseData) {
+  for await (const { question_text } of questionsData) {
     expect(await screen.findByText(question_text)).toBeVisible();
   }
   expect(screen.queryByTestId(sLoadingText)).not.toBeInTheDocument();
@@ -128,7 +139,7 @@ describe("question filtering and selecting", () => {
 
   test("searchbar filtering limits questions by filter text", async () => {
     userEvent.setup();
-    const targetQuestion = responseData[0];
+    const targetQuestion = questionsData[0];
     render(<QuestionsPage />);
 
     // loading
@@ -145,7 +156,7 @@ describe("question filtering and selecting", () => {
 
     await userEvent.type(searchBar, targetQuestion.question_text);
 
-    for (const { id, question_text } of responseData) {
+    for (const { id, question_text } of questionsData) {
       if (targetQuestion.question_text.includes(question_text)) {
         const question = screen.getByTestId(id);
         expect(question).toBeVisible();
@@ -165,8 +176,8 @@ describe("question filtering and selecting", () => {
 
   test("select / deselect all only affects visible items", async () => {
     userEvent.setup();
-    const targetQuestion = responseData[0];
-    const targetQuestion2 = responseData[1];
+    const targetQuestion = questionsData[0];
+    const targetQuestion2 = questionsData[1];
     render(<QuestionsPage />);
 
     // loading
@@ -185,7 +196,7 @@ describe("question filtering and selecting", () => {
     // clear filter
     await userEvent.clear(searchBar);
     // verify only the specific question is selected
-    for (const { id } of responseData) {
+    for (const { id } of questionsData) {
       const question = screen.getByTestId(id);
       const checkbox = within(question).getByRole("checkbox");
 
@@ -212,7 +223,7 @@ describe("question filtering and selecting", () => {
     // clear filter
     await userEvent.clear(searchBar);
     // verify that it only cleared the filtered question's checkbox
-    for (const { id } of responseData) {
+    for (const { id } of questionsData) {
       const question = screen.getByTestId(id);
       const checkbox = within(question).getByRole("checkbox");
 
@@ -239,11 +250,11 @@ describe("question filtering and selecting", () => {
 
     // initial state
     expect(totalQuestionsCount).toHaveTextContent(
-      responseData.length.toString(),
+      questionsData.length.toString(),
     );
     expect(selectedQuestionsCount).toHaveTextContent("0");
     expect(visibleQuestionsCount).toHaveTextContent(
-      responseData.length.toString(),
+      questionsData.length.toString(),
     );
 
     // select a question and check the selected count
@@ -257,7 +268,7 @@ describe("question filtering and selecting", () => {
     // const question2Checkbox = within(question2).getByRole("checkbox");
     const question2 = screen.getByTestId(questionTestIDs[1]);
     const searchBar = screen.getByRole("searchbox");
-    await userEvent.type(searchBar, responseData[1].question_text);
+    await userEvent.type(searchBar, questionsData[1].question_text);
 
     expect(question2).toBeVisible();
     expect(screen.queryByTestId(questionTestIDs[0])).not.toBeInTheDocument();

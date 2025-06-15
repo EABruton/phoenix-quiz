@@ -25,4 +25,9 @@ defmodule BackendWeb.ErrorJSONTest do
   test "renders default error" do
     assert BackendWeb.ErrorJSON.render(:no_match, %{}) == %{message: "Internal Server Error"}
   end
+
+  test "renders custom message error" do
+    reason = "hello world"
+    assert BackendWeb.ErrorJSON.render(:no_match, %{reason: reason}) == %{message: reason}
+  end
 end
