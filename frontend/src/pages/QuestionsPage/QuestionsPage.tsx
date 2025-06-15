@@ -80,6 +80,7 @@ export default function QuestionsPage() {
   // for paginated results: what page of questions to fetch
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPageNumbers, setTotalPageNumbers] = useState<number>(1);
+  const [totalQuestionCount, setTotalQuestionCount] = useState<number>(0);
 
   // determines whether to show the searchbar + actions floating menu
   const shouldShowComponents = !isLoading && !contentError;
@@ -126,8 +127,9 @@ export default function QuestionsPage() {
         } else {
           setContentError(null);
 
-          const { total_pages: totalPageCount, data } = response!;
+          const { total_pages: totalPageCount, total_count: totalCount, data } = response!;
 
+	  setTotalQuestionCount(totalCount);
           setTotalPageNumbers(totalPageCount);
           setQuestions(data!);
         }
@@ -203,11 +205,11 @@ export default function QuestionsPage() {
             />
           )}
           {content}
-          <PaginationController
+	  {shouldShowComponents && <PaginationController
             currentPageNumber={currentPage}
             totalPageNumbers={totalPageNumbers}
             setPageNumber={setCurrentPage}
-          />
+          />}
         </section>
         {shouldShowComponents && (
           <ActionsBar
@@ -215,7 +217,7 @@ export default function QuestionsPage() {
             filteredQuestionIDs={filteredQuestionIDs}
             handleDeleteQuestions={handleDeleteQuestions}
             setSelectedQuestions={setSelectedQuestions}
-            questionsCount={questions.length}
+            questionsCount={totalQuestionCount}
           />
         )}
       </main>
