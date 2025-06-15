@@ -127,9 +127,13 @@ export default function QuestionsPage() {
         } else {
           setContentError(null);
 
-          const { total_pages: totalPageCount, total_count: totalCount, data } = response!;
+          const {
+            total_pages: totalPageCount,
+            total_count: totalCount,
+            data,
+          } = response!;
 
-	  setTotalQuestionCount(totalCount);
+          setTotalQuestionCount(totalCount);
           setTotalPageNumbers(totalPageCount);
           setQuestions(data!);
         }
@@ -205,11 +209,13 @@ export default function QuestionsPage() {
             />
           )}
           {content}
-	  {shouldShowComponents && <PaginationController
-            currentPageNumber={currentPage}
-            totalPageNumbers={totalPageNumbers}
-            setPageNumber={setCurrentPage}
-          />}
+          {shouldShowComponents && (
+            <PaginationController
+              currentPageNumber={currentPage}
+              totalPageNumbers={totalPageNumbers}
+              setPageNumber={setCurrentPage}
+            />
+          )}
         </section>
         {shouldShowComponents && (
           <ActionsBar

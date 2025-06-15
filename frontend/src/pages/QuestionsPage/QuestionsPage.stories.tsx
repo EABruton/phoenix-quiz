@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import QuestionsPage from "./QuestionsPage";
 import { http, HttpResponse, delay } from "msw";
-import type { Question, QuestionListResponse } from "../../services/api/QuizzesService";
+import type {
+  Question,
+  QuestionListResponse,
+} from "../../services/api/QuizzesService";
 
 const questions: Question[] = [
   {
@@ -26,7 +29,7 @@ const responseData: QuestionListResponse = {
   current_page: 1,
   total_pages: 2,
   data: questions,
-}
+};
 
 const getHandlerDelay = http.get("*/api/questions", async () => {
   await delay(3000);
