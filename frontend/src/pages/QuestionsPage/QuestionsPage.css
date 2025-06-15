@@ -19,7 +19,7 @@ main#questions-page {
 
 .questions-page__content {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   flex-direction: column;
   grid-area: content;
 }

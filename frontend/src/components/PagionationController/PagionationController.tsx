@@ -1,3 +1,5 @@
+import "./PagionationController.css";
+
 type PaginationControllerProps = {
   totalPageNumbers: number;
   currentPageNumber: number;
