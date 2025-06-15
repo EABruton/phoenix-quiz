@@ -8,5 +8,5 @@ type FloatingActionsBarProps = {
 export default function FloatingActionsBar({
   children,
 }: FloatingActionsBarProps) {
-  return <aside className="floating-actions-bar">{children}</aside>;
+  return <div className="floating-actions-bar">{children}</div>;
 }

@@ -30,7 +30,7 @@ function ActionsBar({
 }: ActionsBarProps) {
   return (
     <aside className="questions-page__actions">
-      <FloatingActionsBar key={"floating-actions-bar"}>
+      <FloatingActionsBar>
         <div className="floating-actions-bar__info">
           <p className="floating-actions-bar__text">
             <span>Total Questions:</span>
