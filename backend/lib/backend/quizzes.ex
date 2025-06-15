@@ -24,16 +24,12 @@ defmodule Backend.Quizzes do
   def list_questions(page, results_per_page \\ @results_per_page) do
     # page 1 means no offset
     offset = results_per_page * (page - 1)
-    limit = offset + results_per_page
 
     query =
       from(q in Question,
-        limit: ^limit,
+        limit: ^results_per_page,
         offset: ^offset,
-        # TODO: Consider getting rid of this, as the answers usually aren't being used
-        # left_join: a in assoc(q, :answers),
-        # preload: [answers: a],
-        order_by: [desc: q.inserted_at]
+        order_by: [desc: q.inserted_at, desc: q.id]
       )
 
     questions = Repo.all(query)

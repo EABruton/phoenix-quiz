@@ -14,8 +14,8 @@ const setSelectedQuestions = jest.fn();
 const selectedQuestionIDs = [...Array(3)].map((_, i) => `ID: ${i}`);
 
 // selectors
-const sDeselectAll = "deselect-all-questions";
-const sSelectAll = "select-all-questions";
+const sDeselectAll = "deselect-all-ids";
+const sSelectAll = "select-all-ids";
 
 beforeEach(() => {
   setSelectedQuestions.mockReset();
@@ -25,9 +25,9 @@ test("deselect all button is disabled if no selected IDs are visible", async () 
   const filteredQuestionIDs = ["6", "7"];
   render(
     <DeselectAllButton
-      setSelectedQuestions={setSelectedQuestions}
-      filteredQuestionIDs={filteredQuestionIDs}
-      selectedQuestionIDs={selectedQuestionIDs}
+      setSelectedIDs={setSelectedQuestions}
+      filteredIDs={filteredQuestionIDs}
+      selectedIDs={selectedQuestionIDs}
     />,
   );
 
@@ -39,9 +39,9 @@ test("deselect all button triggers setSelectedQuestions on click", async () => {
   userEvent.setup();
   render(
     <DeselectAllButton
-      setSelectedQuestions={setSelectedQuestions}
-      filteredQuestionIDs={selectedQuestionIDs}
-      selectedQuestionIDs={selectedQuestionIDs}
+      setSelectedIDs={setSelectedQuestions}
+      filteredIDs={selectedQuestionIDs}
+      selectedIDs={selectedQuestionIDs}
     />,
   );
 
@@ -56,8 +56,8 @@ test("select all button triggers setSelectedQuestions on click", async () => {
   userEvent.setup();
   render(
     <SelectAllButton
-      setSelectedQuestions={setSelectedQuestions}
-      filteredQuestionIDs={selectedQuestionIDs}
+      setSelectedIDs={setSelectedQuestions}
+      filteredIDs={selectedQuestionIDs}
     />,
   );
 
