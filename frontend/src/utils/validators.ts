@@ -1,5 +1,5 @@
 export interface FieldValidator<T> {
-  (arg: T): [boolean, string | null];
+  (arg: T): [boolean, string[]];
 }
 
 /**
@@ -12,10 +12,10 @@ export function validateFormField<T>(
   validators: FieldValidator<T>[],
 ): [boolean, string[]] {
   function callBack(allErrors: string[], curr: FieldValidator<T>): string[] {
-    const [isValid, errorMessage] = curr(field);
+    const [isValid, errorMessages] = curr(field);
     if (isValid) return allErrors;
 
-    return [...allErrors, errorMessage!];
+    return [...allErrors, ...errorMessages];
   }
 
   const validationErrorMessages = validators.reduce(callBack, []);
