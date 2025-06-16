@@ -13,7 +13,8 @@ export const validatePassword: FieldValidator<string> = (password: string) => {
   const isLengthOK = password.length > 2;
   if (!isLengthOK) errorMessages.push("Password too short");
 
-  const isFormatOK = /[a-zA-Z.!]+/.test(password);
+  const forbiddenSymbolsRegex = /[(){}[|`¬¦! "£$%^&*"<>:;#~_\-+=,@.\]]/;
+  const isFormatOK = !forbiddenSymbolsRegex.test(password);
   if (!isFormatOK) errorMessages.push("Incorrect password format");
 
   const isOK = [isLengthOK, isFormatOK].every((v) => v);
