@@ -22,3 +22,7 @@
 .error-text {
   color: var(--color-error);
 }
+
+.underline {
+  text-decoration: underline;
+}

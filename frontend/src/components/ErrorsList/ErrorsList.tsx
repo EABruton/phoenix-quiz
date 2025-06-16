@@ -34,7 +34,8 @@ export default function ErrorsList({
           return (
             <li key={key} className="errors-list__error-message">
               <span className="errors-list__error-message-text">
-                Error: {errorMessage}
+                <strong>Error:</strong> <br />
+                {errorMessage}
               </span>
               <button
                 className="errors-list__clear-error"
