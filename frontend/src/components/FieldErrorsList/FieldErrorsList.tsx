@@ -8,10 +8,16 @@ export default function FieldErrorsList({
   errorMessages,
 }: FieldErrorsListProps) {
   return (
-    <ul className="field-errors-list" role="alert">
-      {errorMessages.map((errorMessage) => {
-        return <li className="field-errors-list__error">{errorMessage}</li>;
-      })}
-    </ul>
+    <div className="field-errors-list">
+      <ul className="field-errors-list__list">
+        {errorMessages.map((errorMessage) => {
+          return (
+            <li className="field-errors-list__error error-text">
+              {errorMessage}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }

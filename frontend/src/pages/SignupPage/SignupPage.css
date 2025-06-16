@@ -1,0 +1,13 @@
+main#signup-page {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.signup-page__header {
+  width: 100%;
+}
+
+.signup-page__heading {
+}

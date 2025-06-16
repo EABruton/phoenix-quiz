@@ -1,3 +1,4 @@
+import "./SignupPage.css";
 import FieldErrorsList from "../../components/FieldErrorsList/FieldErrorsList";
 import useFieldWithValidation, {
   type FieldWithValidationHook,
@@ -137,10 +138,10 @@ export default function SignupPage() {
 
   return (
     <main id="signup-page">
-      <header className="signup-page-header">
+      <header className="signup-page__header">
         <h1 className="signup-page__heading">Signup Here</h1>
       </header>
-      <section className="signup-form-section">
+      <section className="signup-page__form-section">
         {submitErrorsComponent}
         <SignupForm
           emailInputProps={emailInputProps}
