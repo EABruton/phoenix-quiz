@@ -55,11 +55,19 @@ function SignupForm({
     />
   ) : null;
 
-  const canSubmit = [
+  const areFieldsBlank = [
+    emailInputProps.value,
+    passwordInputProps.value,
+    passwordConfirmInputProps.value,
+  ].some((v) => v.trim() === "");
+
+  const areErrorMessagesPresent = [
     emailErrorMessages,
     passwordErrorMessages,
     passwordConfirmErrorMessages,
-  ].every((v) => v.length === 0);
+  ].some((v) => v.length > 0);
+
+  const canSubmit = [!areFieldsBlank, !areErrorMessagesPresent].every((v) => v);
 
   return (
     <form id="signup-form" className="signup-form" onSubmit={handleSubmit}>
@@ -118,6 +126,7 @@ function SignupForm({
         disabled={!canSubmit}
         type="submit"
         className="signup-form__submit-button"
+        data-testid="submit-signup-form"
       >
         Signup
       </button>

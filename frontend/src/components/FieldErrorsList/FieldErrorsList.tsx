@@ -10,11 +10,13 @@ export default function FieldErrorsList({
   id,
 }: FieldErrorsListProps) {
   return (
-    <div className="field-errors-list" id={id}>
+    <div className="field-errors-list" id={id} data-testid={id}>
       <ul className="field-errors-list__list">
         {errorMessages.map((errorMessage) => {
+          const key = id + errorMessage.toLowerCase().replace(" ", "-");
+
           return (
-            <li className="field-errors-list__error error-text">
+            <li key={key} className="field-errors-list__error error-text">
               {errorMessage}
             </li>
           );
