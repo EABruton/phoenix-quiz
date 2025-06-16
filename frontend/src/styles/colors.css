@@ -3,13 +3,16 @@
   --color-secondary: #2a4759;
   --color-background: #dddddd;
   --color-surface: #eeeeee;
-  --color-error: #b00020;
   --color-white: #ffffff;
   --color-black: #000000;
-  --color-success: #4caf50;
 
   /* Additional colors */
   --color-text-primary: rgba(0, 0, 0, 0.87);
   --color-text-secondary: rgba(0, 0, 0, 0.54);
   --color-text-disabled: rgba(0, 0, 0, 0.38);
+
+  /* Status colors */
+  --color-success: #4caf50;
+  --color-error: #b00020;
+  --color-error-secondary: #ffd166;
 }

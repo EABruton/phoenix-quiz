@@ -4,7 +4,7 @@
 
 .searchbar__input {
   border: 1px solid var(--color-black);
-  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--box-shadow-base);
   padding: 8px;
   border-radius: 8px;
   width: 100%;

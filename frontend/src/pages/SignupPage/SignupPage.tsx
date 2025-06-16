@@ -31,20 +31,29 @@ function SignupForm({
   passwordConfirmErrorMessages,
   handleSubmit,
 }: SignupFormProps) {
-  const emailErrorComponent =
-    emailErrorMessages.length > 0 ? (
-      <FieldErrorsList errorMessages={emailErrorMessages} />
-    ) : null;
+  const hasEmailErrors = emailErrorMessages.length > 0;
+  const emailErrorsID = "email-errors";
+  const emailErrorComponent = hasEmailErrors ? (
+    <FieldErrorsList errorMessages={emailErrorMessages} id={emailErrorsID} />
+  ) : null;
 
-  const passwordErrorComponent =
-    passwordErrorMessages.length > 0 ? (
-      <FieldErrorsList errorMessages={passwordErrorMessages} />
-    ) : null;
+  const hasPasswordErrors = passwordErrorMessages.length > 0;
+  const passwordErrorsID = "password-errors";
+  const passwordErrorComponent = hasPasswordErrors ? (
+    <FieldErrorsList
+      errorMessages={passwordErrorMessages}
+      id={passwordErrorsID}
+    />
+  ) : null;
 
-  const confirmPasswordErrorComponent =
-    passwordConfirmErrorMessages.length > 0 ? (
-      <FieldErrorsList errorMessages={passwordConfirmErrorMessages} />
-    ) : null;
+  const hasConfirmPasswordErrors = passwordConfirmErrorMessages.length > 0;
+  const confirmPasswordErrorsID = "confirm-password-errors";
+  const confirmPasswordErrorComponent = hasConfirmPasswordErrors ? (
+    <FieldErrorsList
+      errorMessages={passwordConfirmErrorMessages}
+      id={confirmPasswordErrorsID}
+    />
+  ) : null;
 
   const canSubmit = [
     emailErrorMessages,
@@ -55,38 +64,56 @@ function SignupForm({
   return (
     <form id="signup-form" className="signup-form" onSubmit={handleSubmit}>
       <div className="signup-form__field-wrapper">
-        <label htmlFor="signup-email">Email:</label>
+        <label className="signup-form__field-label" htmlFor="signup-email">
+          Email:
+        </label>
         <input
           type="email"
+          className="signup-form__text-input"
           id="signup-email"
           name="signup-email"
+          aria-describedby={hasEmailErrors ? emailErrorsID : ""}
           required
           {...emailInputProps}
         />
         {emailErrorComponent}
       </div>
       <div className="signup-form__field-wrapper">
-        <label htmlFor="signup-password">Password:</label>
+        <label className="signup-form__field-label" htmlFor="signup-password">
+          Password:
+        </label>
         <input
-          type="email"
+          type="password"
+          className="signup-form__text-input"
           id="signup-password"
           name="signup-password"
+          aria-describedby={hasPasswordErrors ? passwordErrorsID : ""}
           required
           {...passwordInputProps}
         />
         {passwordErrorComponent}
       </div>
       <div className="signup-form__field-wrapper">
-        <label htmlFor="signup-password-confirm">Confirm Password:</label>
+        <label
+          className="signup-form__field-label"
+          htmlFor="signup-password-confirm"
+        >
+          Confirm Password:
+        </label>
         <input
-          type="email"
+          type="password"
+          className="signup-form__text-input"
           id="signup-password-confirm"
           name="signup-password-confirm"
+          aria-describedby={
+            hasConfirmPasswordErrors ? confirmPasswordErrorsID : ""
+          }
           required
           {...passwordConfirmInputProps}
         />
         {confirmPasswordErrorComponent}
       </div>
+      <hr />
       <button
         disabled={!canSubmit}
         type="submit"

@@ -2,13 +2,15 @@ import "./FieldErrorsList.css";
 
 type FieldErrorsListProps = {
   errorMessages: string[];
+  id: string;
 };
 
 export default function FieldErrorsList({
   errorMessages,
+  id,
 }: FieldErrorsListProps) {
   return (
-    <div className="field-errors-list">
+    <div className="field-errors-list" id={id}>
       <ul className="field-errors-list__list">
         {errorMessages.map((errorMessage) => {
           return (

@@ -1,8 +1,25 @@
 main#signup-page {
+  background-color: var(--color-secondary);
   align-items: center;
+  border-radius: 8px;
+  box-shadow: var(--box-shadow-base);
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin: auto;
+  padding: 48px;
+  width: fit-content;
+}
+
+#signup-page hr {
+  color: var(--color-primary);
+  /* color: var(--color-black); */
+  box-shadow: var(--box-shadow-base);
+  width: 100%;
+}
+
+#signup-page .error-text {
+  color: var(--color-error-secondary);
 }
 
 .signup-page__header {
@@ -10,4 +27,71 @@ main#signup-page {
 }
 
 .signup-page__heading {
+  color: var(--color-primary);
+  font-size: var(--font-size-heading-primary);
+  text-align: center;
+}
+
+.signup-page__form-section {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.signup-form__field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.signup-form__field-label {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: var(--font-size-body);
+  line-height: 1.4;
+}
+
+.signup-form__submit-button {
+  background-color: var(--color-primary);
+  border-radius: 8px;
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--box-shadow-base);
+  color: var(--color-secondary);
+  cursor: pointer;
+  font-size: var(--font-size-body);
+  font-weight: 500;
+  padding: 8px 12px;
+  transition: 300ms;
+}
+
+.signup-form__submit-button:not(:disabled):is(:hover, :focus) {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  outline: none;
+  transform: scale(1.05);
+}
+
+.signup-form__submit-button:disabled {
+  background-color: var(--color-secondary);
+  border-color: var(--color-white);
+  color: var(--color-white);
+  pointer-events: none;
+}
+
+.signup-form__text-input {
+  border-radius: 8px;
+  border: none;
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  padding: 4px 8px;
+}
+
+.signup-form__text-input:focus {
+  outline: 2.5px solid var(--color-primary);
 }
