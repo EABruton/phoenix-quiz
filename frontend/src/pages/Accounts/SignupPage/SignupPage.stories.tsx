@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { http, HttpResponse } from "msw";
+import SignupPage from "./SignupPage";
 
 const postSuccessResponse = http.post("*/api/accounts/signup", async () => {
   return new HttpResponse({ status: 200 });
@@ -11,8 +12,6 @@ const postFailureResponse = http.post("*/api/accounts/signup", async () => {
     { status: 400 },
   );
 });
-
-import SignupPage from "./SignupPage";
 
 const meta = {
   component: SignupPage,

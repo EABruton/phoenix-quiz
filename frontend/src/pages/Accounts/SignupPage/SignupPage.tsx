@@ -1,14 +1,14 @@
-import "./SignupPage.css";
-import FieldErrorsList from "../../components/FieldErrorsList/FieldErrorsList";
+import "../Accounts.css";
+import FieldErrorsList from "../../../components/FieldErrorsList/FieldErrorsList";
 import useFieldWithValidation, {
   type FieldWithValidationHook,
   type InputProps,
-} from "../../hooks/useFieldWithValidation";
+} from "../../../hooks/useFieldWithValidation";
 import { useState } from "react";
-import type { FieldValidator } from "../../utils/validators";
+import type { FieldValidator } from "../../../utils/validators";
 import { validateEmail, validatePassword } from "./utils/validators";
-import ErrorsList from "../../components/ErrorsList/ErrorsList";
-import AccountsService from "../../services/api/AccountsService";
+import ErrorsList from "../../../components/ErrorsList/ErrorsList";
+import AccountsService from "../../../services/api/AccountsService";
 
 type SignupFormProps = {
   emailInputProps: InputProps<string>;
@@ -76,16 +76,16 @@ function SignupForm({
     <form
       id="signup-form"
       aria-describedby={errorsListID}
-      className="signup-form"
+      className="accounts-form"
       onSubmit={(e) => handleSubmit(e)}
     >
-      <div className="signup-form__field-wrapper">
-        <label className="signup-form__field-label" htmlFor="signup-email">
+      <div className="accounts-form__field-wrapper">
+        <label className="accounts-form__field-label" htmlFor="signup-email">
           Email:
         </label>
         <input
           type="email"
-          className="signup-form__text-input"
+          className="accounts-form__text-input"
           id="signup-email"
           name="signup-email"
           aria-describedby={hasEmailErrors ? emailErrorsID : ""}
@@ -94,13 +94,13 @@ function SignupForm({
         />
         {emailErrorComponent}
       </div>
-      <div className="signup-form__field-wrapper">
-        <label className="signup-form__field-label" htmlFor="signup-password">
+      <div className="accounts-form__field-wrapper">
+        <label className="accounts-form__field-label" htmlFor="signup-password">
           Password:
         </label>
         <input
           type="password"
-          className="signup-form__text-input"
+          className="accounts-form__text-input"
           id="signup-password"
           name="signup-password"
           aria-describedby={hasPasswordErrors ? passwordErrorsID : ""}
@@ -109,16 +109,16 @@ function SignupForm({
         />
         {passwordErrorComponent}
       </div>
-      <div className="signup-form__field-wrapper">
+      <div className="accounts-form__field-wrapper">
         <label
-          className="signup-form__field-label"
+          className="accounts-form__field-label"
           htmlFor="signup-password-confirm"
         >
           Confirm Password:
         </label>
         <input
           type="password"
-          className="signup-form__text-input"
+          className="accounts-form__text-input"
           id="signup-password-confirm"
           name="signup-password-confirm"
           aria-describedby={
@@ -130,14 +130,20 @@ function SignupForm({
         {confirmPasswordErrorComponent}
       </div>
       <hr />
-      <button
-        disabled={!canSubmit}
-        type="submit"
-        className="signup-form__submit-button"
-        data-testid="submit-signup-form"
-      >
-        Signup
-      </button>
+      <div className="accounts-form__button-group">
+        <button
+          disabled={!canSubmit}
+          type="submit"
+          className="accounts-form__submit-button"
+          data-testid="submit-signup-form"
+        >
+          Signup
+        </button>
+        <span className="accounts-form__or">OR</span>
+        <a href="#" className="accounts-form__link">
+          Login here
+        </a>
+      </div>
     </form>
   );
 }
@@ -227,10 +233,10 @@ export default function SignupPage() {
 
   return (
     <main id="signup-page">
-      <header className="signup-page__header">
-        <h1 className="signup-page__heading">Signup Here</h1>
+      <header className="accounts-page__header">
+        <h1 className="accounts-page__heading">Signup Here</h1>
       </header>
-      <section className="signup-page__form-section">
+      <section className="accounts-page__form-section">
         {submitErrorsComponent}
         <SignupForm
           emailInputProps={emailInputProps}

@@ -26,3 +26,9 @@
 .underline {
   text-decoration: underline;
 }
+
+.visually-hidden {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+}
