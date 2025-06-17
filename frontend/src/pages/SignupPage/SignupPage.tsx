@@ -8,6 +8,7 @@ import { useState } from "react";
 import type { FieldValidator } from "../../utils/validators";
 import { validateEmail, validatePassword } from "./utils/validators";
 import ErrorsList from "../../components/ErrorsList/ErrorsList";
+import AccountsService from "../../services/api/AccountsService";
 
 type SignupFormProps = {
   emailInputProps: InputProps<string>;
@@ -138,11 +139,17 @@ function SignupForm({
  * The signup page, which presents the user a chance to signup for the platform.
  */
 export default function SignupPage() {
-  const [emailInputProps, emailErrorMessages]: FieldWithValidationHook<string> =
-    useFieldWithValidation<string>("", [validateEmail]);
+  const [
+    emailInputProps,
+    emailErrorMessages,
+    emailValidator,
+  ]: FieldWithValidationHook<string> = useFieldWithValidation<string>("", [
+    validateEmail,
+  ]);
   const [
     passwordInputProps,
     passwordErrorMessages,
+    passwordValidator,
   ]: FieldWithValidationHook<string> = useFieldWithValidation<string>("", [
     validatePassword,
   ]);
@@ -157,12 +164,48 @@ export default function SignupPage() {
   const [
     confirmPasswordProps,
     confirmPasswordErrorMessages,
+    confirmPasswordValidator,
   ]: FieldWithValidationHook<string> = useFieldWithValidation<string>("", [
     validateConfirmPassword,
   ]);
 
-  // TODO: implement
-  async function handleSubmit() {}
+  /**
+   * Runs all field-level validators and returns whether we can proceed with form submission.
+   */
+  function validateForm(): boolean {
+    const validationArr = [
+      emailValidator,
+      passwordValidator,
+      confirmPasswordValidator,
+    ];
+    const areFieldsValid = validationArr.map((v) => v()).every((v) => v);
+
+    return areFieldsValid;
+  }
+
+  /**
+   * Handles final field validation and submission of the signup form.
+   *
+   * Shows any errors on error, and redirects on success.
+   */
+  async function handleSubmit(e: SubmitEvent) {
+    e.preventDefault();
+
+    const areFieldsValid = validateForm();
+    if (!areFieldsValid) return;
+
+    const [_, error] = await AccountsService.postSignup({
+      email: emailInputProps.value,
+      password: passwordInputProps.value,
+    });
+    if (error) {
+      setSubmitErrors([error.message]);
+      return;
+    }
+
+    console.log("Signup success!");
+    // TODO: implement redirect
+  }
 
   const submitErrorsComponent =
     submitErrors.length > 0 ? (

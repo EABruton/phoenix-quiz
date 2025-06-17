@@ -7,7 +7,11 @@ export type InputProps<T> = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export type FieldWithValidationHook<T> = [InputProps<T>, string[]];
+export type FieldWithValidationHook<T> = [
+  InputProps<T>,
+  string[],
+  () => boolean,
+];
 
 /**
  * A hook used to provide validation for and manage the state of a form field.
@@ -21,7 +25,7 @@ export default function useFieldWithValidation<T>(
   const [value, setValue] = useState<T>(initialValue);
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
-  function handleBlur() {
+  function handleBlur(): boolean {
     const [isValid, validationErrorMessages] = validateFormField<T>(
       value,
       validators,
@@ -29,10 +33,10 @@ export default function useFieldWithValidation<T>(
 
     if (isValid) {
       setErrorMessages([]);
-      return;
     }
 
     setErrorMessages(validationErrorMessages);
+    return isValid;
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -48,5 +52,6 @@ export default function useFieldWithValidation<T>(
     },
     // validation errors
     errorMessages,
+    handleBlur,
   ];
 }
