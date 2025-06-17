@@ -17,7 +17,8 @@ type SignupFormProps = {
   passwordErrorMessages: string[];
   passwordConfirmInputProps: InputProps<string>;
   passwordConfirmErrorMessages: string[];
-  handleSubmit: () => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  errorsListID: string;
 };
 
 /**
@@ -31,6 +32,7 @@ function SignupForm({
   passwordConfirmInputProps,
   passwordConfirmErrorMessages,
   handleSubmit,
+  errorsListID,
 }: SignupFormProps) {
   const hasEmailErrors = emailErrorMessages.length > 0;
   const emailErrorsID = "email-errors";
@@ -71,7 +73,12 @@ function SignupForm({
   const canSubmit = [!areFieldsBlank, !areErrorMessagesPresent].every((v) => v);
 
   return (
-    <form id="signup-form" className="signup-form" onSubmit={handleSubmit}>
+    <form
+      id="signup-form"
+      aria-describedby={errorsListID}
+      className="signup-form"
+      onSubmit={(e) => handleSubmit(e)}
+    >
       <div className="signup-form__field-wrapper">
         <label className="signup-form__field-label" htmlFor="signup-email">
           Email:
@@ -188,7 +195,7 @@ export default function SignupPage() {
    *
    * Shows any errors on error, and redirects on success.
    */
-  async function handleSubmit(e: SubmitEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const areFieldsValid = validateForm();
@@ -207,13 +214,16 @@ export default function SignupPage() {
     // TODO: implement redirect
   }
 
-  const submitErrorsComponent =
-    submitErrors.length > 0 ? (
-      <ErrorsList
-        errorMessages={submitErrors}
-        setErrorMessages={setSubmitErrors}
-      />
-    ) : null;
+  // TODO: implement aria-describedby ID matching
+  const hasSubmitErrors = submitErrors.length > 0;
+  const errorsListID = hasSubmitErrors ? "signup-form-errors" : "";
+  const submitErrorsComponent = hasSubmitErrors ? (
+    <ErrorsList
+      errorMessages={submitErrors}
+      setErrorMessages={setSubmitErrors}
+      id={errorsListID}
+    />
+  ) : null;
 
   return (
     <main id="signup-page">
@@ -230,6 +240,7 @@ export default function SignupPage() {
           passwordConfirmInputProps={confirmPasswordProps}
           passwordConfirmErrorMessages={confirmPasswordErrorMessages}
           handleSubmit={handleSubmit}
+          errorsListID={errorsListID}
         />
       </section>
     </main>

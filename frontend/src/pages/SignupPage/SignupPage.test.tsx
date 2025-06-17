@@ -1,6 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
+
+// mock response
+const mockPostSignup = jest.fn();
+jest.mock("../../services/api/AccountsService", () => ({
+  __esModule: true,
+  default: {
+    postSignup: mockPostSignup,
+  },
+}));
 import SignupPage from "./SignupPage";
 
 // selectors
@@ -14,6 +23,10 @@ const validFieldMap = new Map([
   [() => screen.getByLabelText(/^password/i), "abc"],
   [() => screen.getByLabelText(/^confirm password/i), "abc"],
 ]);
+
+beforeEach(() => {
+  mockPostSignup.mockReset();
+});
 
 test("shows field validation error on field blur", async () => {
   // arrange
@@ -69,4 +82,22 @@ test("disables submit button unless all fields are valid", async () => {
     const selected = screen.queryByTestId(selector);
     expect(selected).not.toBeInTheDocument();
   }
+});
+
+test("renders errors on error response", async () => {
+  // arrange
+  userEvent.setup();
+  render(<SignupPage />);
+  const errorMessage = "failed to signup";
+  mockPostSignup.mockReturnValueOnce([null, new Error(errorMessage)]);
+
+  // act: fill inputs with valid data
+  for await (const [selector, input] of validFieldMap) {
+    const selected = selector();
+    await userEvent.type(selected, input);
+  }
+  await userEvent.tab();
+
+  const submitButton = await screen.findByTestId(sSignupSubmitButton);
+  await userEvent.click(submitButton);
 });

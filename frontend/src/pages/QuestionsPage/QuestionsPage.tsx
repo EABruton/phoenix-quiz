@@ -206,6 +206,7 @@ export default function QuestionsPage() {
             <ErrorsList
               errorMessages={errorMessages}
               setErrorMessages={setErrorMessages}
+              id="questions-list-errors"
             />
           )}
           {content}

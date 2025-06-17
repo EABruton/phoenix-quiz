@@ -4,6 +4,7 @@ import "./ErrorsList.css";
 type ErrorsListProps = {
   setErrorMessages: React.Dispatch<React.SetStateAction<string[]>>;
   errorMessages: string[];
+  id: string;
 };
 
 /**
@@ -12,6 +13,7 @@ type ErrorsListProps = {
 export default function ErrorsList({
   setErrorMessages,
   errorMessages,
+  id,
 }: ErrorsListProps) {
   function handleRemoveErrorMessage(errorMessage: string) {
     setErrorMessages((current) =>
@@ -20,7 +22,12 @@ export default function ErrorsList({
   }
 
   return (
-    <div className="errors-list" role="alert" data-testid="errors-list">
+    <div
+      className="errors-list"
+      id={id || "errors-list"}
+      role="alert"
+      data-testid="errors-list"
+    >
       <button
         className="errors-list__clear-all"
         onClick={() => setErrorMessages([])}
