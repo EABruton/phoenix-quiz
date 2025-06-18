@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 
 // mock response
 const mockPostSignup = jest.fn();
-jest.mock("../../services/api/AccountsService", () => ({
+jest.mock("../../../services/api/AccountsService", () => ({
   __esModule: true,
   default: {
     postSignup: mockPostSignup,

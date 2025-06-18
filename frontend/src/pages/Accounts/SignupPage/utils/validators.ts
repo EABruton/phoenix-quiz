@@ -1,4 +1,4 @@
-import type { FieldValidator } from "../../../utils/validators";
+import type { FieldValidator } from "../../../../utils/validators";
 
 export const validateEmail: FieldValidator<string> = (email: string) => {
   const validationRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
