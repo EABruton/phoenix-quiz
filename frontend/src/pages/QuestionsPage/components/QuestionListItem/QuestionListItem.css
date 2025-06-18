@@ -88,9 +88,3 @@
     transition: transform 0.3s ease;
   }
 }
-
-.visually-hidden {
-  position: absolute;
-  pointer-events: none;
-  opacity: 0;
-}

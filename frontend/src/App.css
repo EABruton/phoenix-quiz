@@ -22,3 +22,13 @@
 .error-text {
   color: var(--color-error);
 }
+
+.underline {
+  text-decoration: underline;
+}
+
+.visually-hidden {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+}

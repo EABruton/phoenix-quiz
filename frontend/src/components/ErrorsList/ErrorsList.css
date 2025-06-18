@@ -1,9 +1,10 @@
 .errors-list {
+  --button-width: 48px;
   align-items: stretch;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  --button-width: 48px;
+  width: 100%;
 }
 
 .errors-list__clear-all {

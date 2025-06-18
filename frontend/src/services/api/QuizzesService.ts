@@ -1,4 +1,4 @@
-import api from "./api";
+import api, { type ApiResponse } from "./api";
 
 export type Question = {
   question_text: string;
@@ -15,7 +15,7 @@ export type QuestionListResponse = {
 
 async function deleteQuestions(
   questionIDs: string[],
-): Promise<[number | null, Error | null]> {
+): Promise<ApiResponse<number>> {
   try {
     const response = await api.delete("/questions", {
       data: { question_ids: questionIDs },
@@ -30,7 +30,7 @@ async function deleteQuestions(
 async function getQuestions(
   abortSignal: AbortSignal,
   pageNumber: number,
-): Promise<[QuestionListResponse | null, Error | null]> {
+): Promise<ApiResponse<QuestionListResponse>> {
   try {
     const { data: responseData } = await api.get(
       "/questions?page=" + pageNumber,
@@ -48,10 +48,7 @@ async function getQuestions(
 
 function fetchQuestions(
   pageNumber: number = 1,
-): [
-  AbortController,
-  () => Promise<[QuestionListResponse | null, Error | null]>,
-] {
+): [AbortController, () => Promise<ApiResponse<QuestionListResponse>>] {
   const controller = new AbortController();
 
   const func = async () => await getQuestions(controller.signal, pageNumber);

@@ -20,6 +20,7 @@ test("renders error messages", async () => {
     <ErrorsList
       errorMessages={errorMessages}
       setErrorMessages={setErrorMessagesMock}
+      id="id"
     />,
   );
 
@@ -35,6 +36,7 @@ test("calls setErrorMessages function when clear all button is clicked", async (
     <ErrorsList
       errorMessages={errorMessages}
       setErrorMessages={setErrorMessagesMock}
+      id="id"
     />,
   );
 
@@ -53,6 +55,7 @@ test("calls setErrorMessages function when invidual error item close button is c
     <ErrorsList
       errorMessages={errorMessages}
       setErrorMessages={setErrorMessagesMock}
+      id="id"
     />,
   );
 

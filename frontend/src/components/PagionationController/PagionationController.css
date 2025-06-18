@@ -8,24 +8,30 @@
 }
 
 .page-controls button {
-  background-color: var(--color-surface);
+  background-color: var(--color-white);
+  border: 1.5px solid var(--color-secondary);
   border-radius: 6px;
-  border: none;
   box-shadow: var(--box-shadow-base);
-  color: var(--color-black);
+  color: var(--color-secondary);
   cursor: pointer;
+  font-size: var(--font-size-body);
+  font-weight: 500;
   padding: 6px 8px;
   transition: 300ms;
   width: 100%;
 }
 
 .page-controls button:is(:hover, :focus) {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
   outline: none;
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 .page-controls button:disabled {
-  color: var(--color-background);
+  /* color: var(--color-background); */
+  border-color: var(--color-secondary-disabled);
+  color: var(--color-secondary-disabled);
   pointer-events: none;
 }
 

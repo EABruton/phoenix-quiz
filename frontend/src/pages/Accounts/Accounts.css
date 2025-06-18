@@ -1,0 +1,139 @@
+main#signup-page,
+main#login-page {
+  background-color: var(--color-secondary);
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: var(--box-shadow-base);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: auto;
+  padding: 24px;
+  max-width: min(95%, 600px);
+  width: 100%;
+}
+
+:is(#signup-page, #login-page) hr {
+  color: var(--color-primary);
+  /* color: var(--color-black); */
+  box-shadow: var(--box-shadow-base);
+  width: 100%;
+}
+
+:is(#signup-page, #login-page) .error-text {
+  color: var(--color-error-secondary);
+}
+
+.accounts-page__header {
+  width: 100%;
+}
+
+.accounts-page__heading {
+  color: var(--color-primary);
+  font-size: var(--font-size-heading-primary);
+  text-align: center;
+}
+
+.accounts-page__form-section {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.accounts-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.accounts-form__field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.accounts-form__field-label {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: var(--font-size-body);
+  line-height: 1.4;
+}
+
+.accounts-form__submit-button {
+  background-color: var(--color-primary);
+  border-radius: 8px;
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--box-shadow-base);
+  color: var(--color-secondary);
+  cursor: pointer;
+  font-size: var(--font-size-body);
+  font-weight: 500;
+  padding: 8px 12px;
+  transition: 300ms;
+}
+
+.accounts-form__submit-button:not(:disabled):is(:hover, :focus) {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  outline: none;
+  transform: scale(1.05);
+}
+
+.accounts-form__submit-button:disabled {
+  background-color: var(--color-secondary);
+  border-color: var(--color-white);
+  color: var(--color-white);
+  pointer-events: none;
+}
+
+.accounts-form__text-input {
+  border-radius: 8px;
+  border: none;
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  padding: 4px 8px;
+}
+
+.accounts-form__text-input:focus {
+  outline: 2.5px solid var(--color-primary);
+}
+
+.accounts-form__button-group {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.accounts-form__or {
+  font-weight: 600;
+  font-size: var(--font-size-body);
+  color: var(--color-primary);
+}
+
+.accounts-form__link {
+  text-decoration: underline;
+  font-weight: 600;
+  font-size: var(--font-size-body);
+  color: var(--color-primary);
+  transition: 300ms;
+}
+
+.accounts-form__link:is(:hover, :focus) {
+  color: var(--color-terniary);
+  transform: scale(1.1);
+}
+
+.accounts-form__link:focus {
+  outline: none;
+}
+
+@media (min-width: 650px) {
+  main#signup-page,
+  main#login-page {
+    padding: 48px;
+  }
+}
