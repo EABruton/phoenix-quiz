@@ -62,7 +62,7 @@ function LoginForm({
         <button
           disabled={areFieldsBlank}
           type="submit"
-          className="accounts-form__submit-button"
+          className="accounts-form__submit-button button--standard button--primary"
           data-testid="submit-login-form"
         >
           Login

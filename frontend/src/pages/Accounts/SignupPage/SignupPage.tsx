@@ -134,7 +134,7 @@ function SignupForm({
         <button
           disabled={!canSubmit}
           type="submit"
-          className="accounts-form__submit-button"
+          className="accounts-form__submit-button button--standard button--primary"
           data-testid="submit-signup-form"
         >
           Signup

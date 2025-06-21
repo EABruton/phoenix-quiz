@@ -62,33 +62,6 @@ main#login-page {
   line-height: 1.4;
 }
 
-.accounts-form__submit-button {
-  background-color: var(--color-primary);
-  border-radius: 8px;
-  border: 2px solid var(--color-primary);
-  box-shadow: var(--box-shadow-base);
-  color: var(--color-secondary);
-  cursor: pointer;
-  font-size: var(--font-size-body);
-  font-weight: 500;
-  padding: 8px 12px;
-  transition: 300ms;
-}
-
-.accounts-form__submit-button:not(:disabled):is(:hover, :focus) {
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
-  outline: none;
-  transform: scale(1.05);
-}
-
-.accounts-form__submit-button:disabled {
-  background-color: var(--color-secondary);
-  border-color: var(--color-white);
-  color: var(--color-white);
-  pointer-events: none;
-}
-
 .accounts-form__text-input {
   border-radius: 8px;
   border: none;

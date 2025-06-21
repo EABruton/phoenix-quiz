@@ -58,6 +58,20 @@ const sNoMatchingQuestions = "no-matching-question-notice";
 
 beforeEach(() => {
   mockFetchQuestions.mockReset();
+
+  const mockedMatchMediaImplementation = (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  });
+
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: jest.fn().mockImplementation(mockedMatchMediaImplementation),
+  });
 });
 
 test("renders list of questions from response data", async () => {

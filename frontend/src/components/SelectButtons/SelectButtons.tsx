@@ -1,6 +1,7 @@
 type SelectButtonProps = {
   setSelectedIDs: (updater: (prev: string[]) => string[]) => void;
   filteredIDs: string[];
+  buttonText?: string;
 };
 
 type DeselectButtonProps = SelectButtonProps & {
@@ -14,6 +15,7 @@ export function DeselectAllButton({
   setSelectedIDs,
   filteredIDs,
   selectedIDs,
+  buttonText = "Deselect All",
 }: DeselectButtonProps) {
   // deselects everything from the current filter, but not everything overall
   function deselectVisibleQuestions() {
@@ -27,12 +29,12 @@ export function DeselectAllButton({
 
   return (
     <button
-      className="deselect-button select-deselect-button"
+      className="deselect-button select-deselect-button button--standard button--primary"
       onClick={deselectVisibleQuestions}
       data-testid="deselect-all-ids"
       disabled={isDisabled}
     >
-      Deselect All
+      {buttonText}
     </button>
   );
 }
@@ -43,6 +45,7 @@ export function DeselectAllButton({
 export function SelectAllButton({
   setSelectedIDs,
   filteredIDs,
+  buttonText = "Select All",
 }: SelectButtonProps) {
   // adds the filtered IDs to the current selection of IDs if not already present
   function addVisibleQuestionsToSelected() {
@@ -54,11 +57,11 @@ export function SelectAllButton({
 
   return (
     <button
-      className="select-button select-deselect-button"
+      className="select-button select-deselect-button button--standard button--primary"
       onClick={addVisibleQuestionsToSelected}
       data-testid="select-all-ids"
     >
-      Select All
+      {buttonText}
     </button>
   );
 }

@@ -1,74 +1,14 @@
 import "./QuestionsPage.css";
-import { useState, useEffect } from "react";
-import FloatingActionsBar from "../../components/FloatingActionsBar/FloatingActionsBar";
+import { useState, useEffect, useRef } from "react";
 import QuestionsPageProvider from "./QuestionsPageContext";
 import QuizzesService from "../../services/api/QuizzesService";
 import Searchbar from "../../components/Searchbar/Searchbar";
 import type { Question } from "../../services/api/QuizzesService";
 import QuestionList from "./components/QuestionList/QuestionList";
-import {
-  SelectAllButton,
-  DeselectAllButton,
-} from "../../components/SelectButtons/SelectButtons";
 import ErrorsList from "../../components/ErrorsList/ErrorsList";
 import PaginationController from "../../components/PagionationController/PagionationController";
-
-type ActionsBarProps = {
-  selectedQuestions: string[];
-  filteredQuestionIDs: string[];
-  handleDeleteQuestions: () => void;
-  setSelectedQuestions: React.Dispatch<React.SetStateAction<string[]>>;
-  questionsCount: number;
-};
-
-function ActionsBar({
-  selectedQuestions,
-  filteredQuestionIDs,
-  handleDeleteQuestions,
-  setSelectedQuestions,
-  questionsCount,
-}: ActionsBarProps) {
-  return (
-    <aside className="questions-page__actions">
-      <FloatingActionsBar>
-        <div className="floating-actions-bar__info">
-          <p className="floating-actions-bar__text">
-            <span>Total Questions:</span>
-            <span data-testid="total-questions-count">{questionsCount}</span>
-          </p>
-          <p className="floating-actions-bar__text">
-            <span>Selected Questions:</span>
-            <span data-testid="selected-questions-count">
-              {selectedQuestions.length}
-            </span>
-          </p>
-          <p className="floating-actions-bar__text">
-            <span>Visible Questions:</span>
-            <span data-testid="visible-questions-count">
-              {filteredQuestionIDs.length}
-            </span>
-          </p>
-        </div>
-        <button
-          className="floating-actions-bar__button floating-actions-bar__button--delete"
-          onClick={handleDeleteQuestions}
-          disabled={selectedQuestions.length === 0}
-        >
-          Delete Selected
-        </button>
-        <SelectAllButton
-          setSelectedIDs={setSelectedQuestions}
-          filteredIDs={filteredQuestionIDs}
-        />
-        <DeselectAllButton
-          setSelectedIDs={setSelectedQuestions}
-          filteredIDs={filteredQuestionIDs}
-          selectedIDs={selectedQuestions}
-        />
-      </FloatingActionsBar>
-    </aside>
-  );
-}
+import useMediaQuery from "../../hooks/useMediaQuery";
+import ActionsBar from "./components/ActionsBar/ActionsBar";
 
 export default function QuestionsPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -77,6 +17,8 @@ export default function QuestionsPage() {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]);
   const [searchFilter, setSearchFilter] = useState<string>("");
+  const isDesktop = useMediaQuery("(min-width: 650px)");
+  const actionsBarRef = useRef<HTMLDialogElement | null>(null);
   // for paginated results: what page of questions to fetch
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPageNumbers, setTotalPageNumbers] = useState<number>(1);
@@ -186,6 +128,16 @@ export default function QuestionsPage() {
       );
   }
 
+  const openActionsButton = isDesktop ? null : (
+    <button
+      aria-controls={actionsBarRef.current?.id}
+      className="questions-page__open-actions button--standard button--secondary--inverse"
+      onClick={() => actionsBarRef.current?.showModal()}
+    >
+      Open actions
+    </button>
+  );
+
   return (
     <QuestionsPageProvider value={{ selectedQuestions, setSelectedQuestions }}>
       <main id="questions-page">
@@ -209,6 +161,7 @@ export default function QuestionsPage() {
               id="questions-list-errors"
             />
           )}
+          {openActionsButton}
           {content}
           {shouldShowComponents && (
             <PaginationController
@@ -225,6 +178,8 @@ export default function QuestionsPage() {
             handleDeleteQuestions={handleDeleteQuestions}
             setSelectedQuestions={setSelectedQuestions}
             questionsCount={totalQuestionCount}
+            isDesktop={isDesktop}
+            actionsBarRef={actionsBarRef}
           />
         )}
       </main>

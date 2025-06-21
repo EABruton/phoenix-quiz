@@ -1,0 +1,36 @@
+.actions-bar__dialog:open {
+  display: flex;
+  flex-direction: column;
+  border-width: 0;
+  box-shadow: var(--box-shadow-base);
+  gap: 8px;
+  background-color: var(--color-secondary);
+  border-radius: 8px;
+  padding: 0;
+  max-width: 95%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.actions-bar__dialog:is(:hover, :focus) {
+  outline: none;
+}
+
+.actions-bar__dialog-close {
+  border-radius: 8px 8px 0 0;
+  width: 100%;
+}
+
+.actions-bar__dialog-close:is(:hover, :focus) {
+  border-color: var(--color-secondary) var(--color-secondary)
+    var(--color-primary) var(--color-secondary);
+  transform: unset;
+}
+
+.actions-bar__dialog .floating-actions-bar {
+  padding-bottom: 32px;
+}
+
+.actions-bar__dialog .floating-actions-bar__button {
+  font-size: 1.2rem;
+}
