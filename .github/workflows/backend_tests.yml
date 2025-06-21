@@ -1,0 +1,57 @@
+name: Backend Test Runner
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: ["main"]
+    paths: ["backend/**"]
+
+jobs:
+  test:
+    runs_on: [ubuntu-latest]
+    defaults:
+      working-directory: backend
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: phoenix_quiz_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      MIX_ENV: test
+      DATABASE_URL: ecto://postgres:postgres@localhost/phoenix_quiz_test
+      DB_PASSWORD: postgres
+
+    steps:
+      - name: Checks out the repository to the runner
+        uses: actions/checkout@v4
+
+      - name: Uses Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          # elixir --version
+          elixir-version: '1.18.x'
+          otp-version: '28'
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Compile dependencies
+        run: mix compile --warnings-as-errors
+
+      - name: Create and migrate database
+        run: |
+          mix ecto.create
+          mix ecto.migrate
+
+      - name: Run tests
+        run: mix test
