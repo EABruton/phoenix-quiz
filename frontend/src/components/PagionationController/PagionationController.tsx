@@ -17,7 +17,7 @@ export default function PaginationController({
         <button
           onClick={() => setPageNumber((curr) => curr - 1)}
           disabled={currentPageNumber <= 1}
-          className="page-controls__previous-page-button"
+          className="page-controls__previous-page-button button--standard button--white-bg-green-text"
           data-testid="page-controls-prev"
         >
           Previous Page
@@ -32,7 +32,7 @@ export default function PaginationController({
         <button
           onClick={() => setPageNumber((curr) => curr + 1)}
           disabled={currentPageNumber >= totalPageNumbers}
-          className="page-controls__next-page-button"
+          className="page-controls__next-page-button button--standard button--white-bg-green-text"
           data-testid="page-controls-next"
         >
           Next Page

@@ -4,8 +4,7 @@ main#questions-page {
   gap: 12px;
   grid-template-areas:
     "header header"
-    "content actions";
-  grid-template-columns: 4fr 1fr;
+    "content content";
   justify-content: center;
   justify-items: stretch;
   max-width: min(95%, 800px);
@@ -54,4 +53,17 @@ main#questions-page {
   font-weight: 400;
   line-height: 1.4;
   text-align: center;
+}
+
+.questions-page__open-actions {
+  cursor: pointer;
+}
+
+@media (min-width: 650px) {
+  main#questions-page {
+    grid-template-areas:
+      "header header"
+      "content actions";
+    grid-template-columns: 4fr 1fr;
+  }
 }
