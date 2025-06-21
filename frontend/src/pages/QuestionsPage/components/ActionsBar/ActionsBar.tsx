@@ -45,7 +45,7 @@ export default function ActionsBar({
         </p>
       </div>
       <button
-        className="button--standard button--orange-bg-green-text"
+        className="button--standard button--primary"
         onClick={handleDeleteQuestions}
         disabled={selectedQuestions.length === 0}
       >
@@ -77,7 +77,7 @@ export default function ActionsBar({
       ref={actionsBarRef}
     >
       <button
-        className="actions-bar__dialog-close button--standard button--orange-bg-green-text"
+        className="actions-bar__dialog-close button--standard button--primary"
         autoFocus={true}
         onClick={() => actionsBarRef.current?.close()}
         aria-controls="questions-page-actions-bar"

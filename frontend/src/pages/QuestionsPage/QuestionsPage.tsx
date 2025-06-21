@@ -131,7 +131,7 @@ export default function QuestionsPage() {
   const openActionsButton = isDesktop ? null : (
     <button
       aria-controls={actionsBarRef.current?.id}
-      className="questions-page__open-actions button--standard button--white-bg-green-text"
+      className="questions-page__open-actions button--standard button--secondary--inverse"
       onClick={() => actionsBarRef.current?.showModal()}
     >
       Open actions

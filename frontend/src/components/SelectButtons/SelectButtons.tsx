@@ -29,7 +29,7 @@ export function DeselectAllButton({
 
   return (
     <button
-      className="deselect-button select-deselect-button button--standard button--orange-bg-green-text"
+      className="deselect-button select-deselect-button button--standard button--primary"
       onClick={deselectVisibleQuestions}
       data-testid="deselect-all-ids"
       disabled={isDisabled}
@@ -57,7 +57,7 @@ export function SelectAllButton({
 
   return (
     <button
-      className="select-button select-deselect-button button--standard button--orange-bg-green-text"
+      className="select-button select-deselect-button button--standard button--primary"
       onClick={addVisibleQuestionsToSelected}
       data-testid="select-all-ids"
     >

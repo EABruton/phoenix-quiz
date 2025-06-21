@@ -28,50 +28,50 @@
   transform: scale(1.05);
 }
 
-.button--white-bg-green-text {
+.button--secondary--inverse {
   background-color: var(--color-white);
   border-color: var(--color-secondary);
   color: var(--color-secondary);
 }
 
-.button--white-bg-green-text:is(:hover, :focus) {
+.button--secondary--inverse:is(:hover, :focus) {
   background-color: var(--color-secondary);
   color: var(--color-white);
 }
 
-.button--white-bg-green-text:disabled {
+.button--secondary--inverse:disabled {
   border-color: var(--color-secondary-disabled);
   color: var(--color-secondary-disabled);
 }
 
-.button--orange-bg-green-text {
+.button--primary {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
   color: var(--color-secondary);
 }
 
-.button--orange-bg-green-text:is(:hover, :focus) {
+.button--primary:is(:hover, :focus) {
   background-color: var(--color-secondary);
   color: var(--color-primary);
 }
 
-.button--orange-bg-green-text:disabled {
+.button--primary:disabled {
   background-color: var(--color-secondary);
   border-color: var(--color-white);
   color: var(--color-white);
 }
 
-.button--green-bg-orange-text {
+.button--primary--inverse {
   background-color: var(--color-secondary);
   border: 1px solid var(--color-primary);
   color: var(--color-primary);
 }
 
-.button--green-bg-orange-text:is(:hover, :focus) {
+.button--primary--inverse:is(:hover, :focus) {
   background-color: var(--color-primary);
   color: var(--color-secondary);
 }
 
-.button--green-bg-orange-text:disabled {
+.button--primary--inverse:disabled {
   color: var(--color-white);
 }
