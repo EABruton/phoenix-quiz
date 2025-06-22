@@ -1,4 +1,6 @@
 defmodule Backend.QuizzesTest do
+alias Backend.Quizzes.Question
+alias Backend.Accounts.User
   use Backend.DataCase
 
   alias Backend.Quizzes
@@ -7,8 +9,9 @@ defmodule Backend.QuizzesTest do
     alias Backend.Quizzes.Question
 
     import Backend.QuizzesFixtures
+    import Backend.AccountsFixtures
 
-    @invalid_attrs %{question_text: nil, answer_text: nil}
+    @invalid_attrs %{question_text: nil, answer_text: nil, user_id: nil}
 
     test "list_questions/1 returns correct metadata around pagination" do
       results_per_page = 5
@@ -32,7 +35,8 @@ defmodule Backend.QuizzesTest do
     end
 
     test "create_question/1 with valid data creates a question" do
-      valid_attrs = %{question_text: "some question_text", answer_text: "some answer_text"}
+      %User{id: user_id} = user_fixture()
+      valid_attrs = %{question_text: "some question_text", answer_text: "some answer_text", user_id: user_id}
 
       assert {:ok, %Question{} = question} = Quizzes.create_question(valid_attrs)
       assert question.question_text == "some question_text"
@@ -111,7 +115,8 @@ defmodule Backend.QuizzesTest do
     end
 
     test "create_answer/1 with valid data creates a answer" do
-      valid_attrs = %{label: "some label", text: "some text"}
+      %Question{id: question_id} = question_fixture()
+      valid_attrs = %{label: "some label", text: "some text", question_id: question_id}
 
       assert {:ok, %Answer{} = answer} = Quizzes.create_answer(valid_attrs)
       assert answer.label == "some label"
@@ -153,6 +158,7 @@ defmodule Backend.QuizzesTest do
     alias Backend.Quizzes.Quiz
 
     import Backend.QuizzesFixtures
+    import Backend.AccountsFixtures
 
     @invalid_attrs %{name: nil}
 
@@ -167,7 +173,8 @@ defmodule Backend.QuizzesTest do
     end
 
     test "create_quiz/1 with valid data creates a quiz" do
-      valid_attrs = %{name: "some name"}
+      %User{id: user_id} = user_fixture()
+      valid_attrs = %{name: "some name", user_id: user_id}
 
       assert {:ok, %Quiz{} = quiz} = Quizzes.create_quiz(valid_attrs)
       assert quiz.name == "some name"

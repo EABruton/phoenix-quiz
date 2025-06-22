@@ -49,10 +49,14 @@ defmodule Backend.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+  def create_user(%{password: password} = attrs) do
+    with hashed_password <- Bcrypt.Base.hash_password(password, Bcrypt.Base.gen_salt(12, false)),
+      updated_attrs <- Map.update(attrs, :password, hashed_password, fn _ -> hashed_password end) do
+        
+      %User{}
+      |> User.changeset(updated_attrs)
+      |> Repo.insert()
+    end
   end
 
   @doc """
@@ -69,7 +73,7 @@ defmodule Backend.Accounts do
   """
   def update_user(%User{} = user, attrs) do
     user
-    |> User.changeset(attrs)
+    |> User.changeset(attrs, :update_email)
     |> Repo.update()
   end
 
