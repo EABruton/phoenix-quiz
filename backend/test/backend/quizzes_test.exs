@@ -1,6 +1,6 @@
 defmodule Backend.QuizzesTest do
-alias Backend.Quizzes.Question
-alias Backend.Accounts.User
+  alias Backend.Quizzes.Question
+  alias Backend.Accounts.User
   use Backend.DataCase
 
   alias Backend.Quizzes
@@ -36,7 +36,12 @@ alias Backend.Accounts.User
 
     test "create_question/1 with valid data creates a question" do
       %User{id: user_id} = user_fixture()
-      valid_attrs = %{question_text: "some question_text", answer_text: "some answer_text", user_id: user_id}
+
+      valid_attrs = %{
+        question_text: "some question_text",
+        answer_text: "some answer_text",
+        user_id: user_id
+      }
 
       assert {:ok, %Question{} = question} = Quizzes.create_question(valid_attrs)
       assert question.question_text == "some question_text"

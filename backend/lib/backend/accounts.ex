@@ -51,8 +51,8 @@ defmodule Backend.Accounts do
   """
   def create_user(%{password: password} = attrs) do
     with hashed_password <- Bcrypt.Base.hash_password(password, Bcrypt.Base.gen_salt(12, false)),
-      updated_attrs <- Map.update(attrs, :password, hashed_password, fn _ -> hashed_password end) do
-        
+         updated_attrs <-
+           Map.update(attrs, :password, hashed_password, fn _ -> hashed_password end) do
       %User{}
       |> User.changeset(updated_attrs)
       |> Repo.insert()
