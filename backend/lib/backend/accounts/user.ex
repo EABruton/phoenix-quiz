@@ -8,8 +8,8 @@ defmodule Backend.Accounts.User do
     field :email, :string
     field :password, :string
 
-    has_many :quizzes, Backend.Quizzes.Quiz
-    has_many :questions, Backend.Quizzes.Quiz
+    has_many :quizzes, Backend.Quizzes.Quiz, foreign_key: :user_id
+    has_many :questions, Backend.Quizzes.Question, foreign_key: :user_id
 
     timestamps(type: :utc_datetime)
   end

@@ -10,6 +10,7 @@ defmodule Backend.Quizzes.Question do
 
     has_many :answers, Backend.Quizzes.Answer
     belongs_to :quiz, Backend.Quizzes.Quiz, type: :binary_id
+    belongs_to :user, Backend.Accounts.User, type: :binary_id
 
     timestamps(type: :utc_datetime)
   end

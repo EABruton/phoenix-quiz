@@ -8,7 +8,7 @@ defmodule Backend.Quizzes.Quiz do
   schema "quizzes" do
     field :name, :string
 
-    belongs_to :users, Backend.Accounts.User
+    belongs_to :user, Backend.Accounts.User, type: :binary_id
     has_many :questions, Question
 
     timestamps(type: :utc_datetime)
