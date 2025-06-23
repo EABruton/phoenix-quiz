@@ -60,7 +60,7 @@ defmodule Backend.Accounts do
   end
 
   @doc """
-  Updates a user.
+  Updates a user's email.
 
   ## Examples
 
@@ -71,10 +71,20 @@ defmodule Backend.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_user(%User{} = user, attrs) do
+  def update_user(%User{} = user, %{email: _email} = attrs) do
     user
     |> User.changeset(attrs, :update_email)
     |> Repo.update()
+  end
+
+  def update_user(%User{} = user, %{password: password} = attrs) do
+    changeset = user |> User.changeset(attrs, :update_password)
+    hashed_password = Bcrypt.Base.hash_password(password, Bcrypt.Base.gen_salt(12, false))
+
+    updated_changeset =
+      Map.update(changeset, :changes, %{}, fn _changes -> %{password: hashed_password} end)
+
+    updated_changeset |> Repo.update()
   end
 
   @doc """

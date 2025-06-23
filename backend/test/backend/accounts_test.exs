@@ -35,13 +35,28 @@ defmodule Backend.AccountsTest do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_partial_attrs)
     end
 
-    test "update_user/2 with valid data updates the user" do
-      user = user_fixture()
+    test "update_user/2 with email only updates email" do
+      # make sure the password does not change
+      original_password = "original password"
+      user = user_fixture(%{password: original_password})
+      new_password = "new password"
       updated_email = "some@updated.com"
-      update_attrs = %{email: updated_email}
+      update_attrs = %{email: updated_email, password: new_password}
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
+
       assert user.email == updated_email
+      assert Bcrypt.verify_pass(original_password, user.password)
+    end
+
+    test "create_user/2 with password hashes new password" do
+      user = user_fixture(%{password: "old password"})
+      new_password = "abcPassword123"
+      updated_attrs = %{password: new_password}
+
+      assert {:ok, %User{} = user} = Accounts.update_user(user, updated_attrs)
+
+      assert Bcrypt.verify_pass(new_password, user.password)
     end
 
     test "update_user/2 with invalid data returns error changeset" do

@@ -15,19 +15,32 @@ defmodule Backend.Accounts.User do
   end
 
   @doc false
-  def changeset(user, attrs, action \\ :create) do
+  def changeset(user, attrs, action \\ :create)
+
+  def changeset(user, attrs, :create) do
     user
     |> cast(attrs, [:email, :password])
-    |> maybe_validate_required(action)
+    |> validate_required([:email, :password])
+    |> validate_email()
+  end
+
+  def changeset(user, attrs, :update_email) do
+    user
+    |> cast(attrs, [:email])
+    |> validate_required([:email])
+    |> validate_email()
+  end
+
+  def changeset(user, attrs, :update_password) do
+    user
+    |> cast(attrs, [:password])
+    |> validate_required([:password])
+    |> validate_length(:password, min: 7)
+  end
+
+  defp validate_email(changeset) do
+    changeset
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/)
     |> unique_constraint(:email)
-  end
-
-  defp maybe_validate_required(changeset, :create) do
-    validate_required(changeset, [:email, :password])
-  end
-
-  defp maybe_validate_required(changeset, :update_email) do
-    validate_required(changeset, [:email])
   end
 end
