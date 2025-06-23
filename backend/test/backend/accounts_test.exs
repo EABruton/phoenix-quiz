@@ -8,8 +8,8 @@ defmodule Backend.AccountsTest do
 
     import Backend.AccountsFixtures
 
-    @invalid_attrs %{password: nil, email: nil}
-    @invalid_partial_attrs %{password: "123", email: nil}
+    @invalid_attrs %{"password" => nil, "email" => nil}
+    @invalid_partial_attrs %{"password" => "123", "email" => nil}
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -24,7 +24,7 @@ defmodule Backend.AccountsTest do
     test "create_user/1 with valid data creates a user" do
       email = "some@email.com"
       password = "some password"
-      valid_attrs = %{password: password, email: email}
+      valid_attrs = %{"password" => password, "email" => email}
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert Bcrypt.verify_pass(password, user.password) == true
@@ -38,10 +38,10 @@ defmodule Backend.AccountsTest do
     test "update_user/2 with email only updates email" do
       # make sure the password does not change
       original_password = "original password"
-      user = user_fixture(%{password: original_password})
+      user = user_fixture(%{"password" => original_password})
       new_password = "new password"
       updated_email = "some@updated.com"
-      update_attrs = %{email: updated_email, password: new_password}
+      update_attrs = %{"email" => updated_email, "password" => new_password}
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
 
@@ -50,9 +50,9 @@ defmodule Backend.AccountsTest do
     end
 
     test "create_user/2 with password hashes new password" do
-      user = user_fixture(%{password: "old password"})
+      user = user_fixture(%{"password" => "old password"})
       new_password = "abcPassword123"
-      updated_attrs = %{password: new_password}
+      updated_attrs = %{"password" => new_password}
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, updated_attrs)
 

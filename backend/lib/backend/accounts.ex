@@ -49,10 +49,10 @@ defmodule Backend.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(%{password: password} = attrs) do
-    with hashed_password <- Bcrypt.Base.hash_password(password, Bcrypt.Base.gen_salt(12, false)),
+  def create_user(%{"password" => password} = attrs) do
+    with hashed_password <- Bcrypt.hash_pwd_salt(password),
          updated_attrs <-
-           Map.update(attrs, :password, hashed_password, fn _ -> hashed_password end) do
+           Map.put(attrs, "password", hashed_password) do
       %User{}
       |> User.changeset(updated_attrs)
       |> Repo.insert()
@@ -71,13 +71,13 @@ defmodule Backend.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_user(%User{} = user, %{email: _email} = attrs) do
+  def update_user(%User{} = user, %{"email" => _email} = attrs) do
     user
     |> User.changeset(attrs, :update_email)
     |> Repo.update()
   end
 
-  def update_user(%User{} = user, %{password: password} = attrs) do
+  def update_user(%User{} = user, %{"password" => password} = attrs) do
     changeset = user |> User.changeset(attrs, :update_password)
     hashed_password = Bcrypt.Base.hash_password(password, Bcrypt.Base.gen_salt(12, false))
 

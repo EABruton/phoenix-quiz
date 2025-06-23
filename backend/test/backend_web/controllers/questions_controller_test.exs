@@ -1,5 +1,6 @@
 defmodule BackendWeb.QuestionsControllerTest do
-  use BackendWeb.ConnCase
+  use BackendWeb.ConnCase, async: true
+  @endpoint BackendWeb.Endpoint
 
   import Backend.QuizzesFixtures
 

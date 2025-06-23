@@ -18,6 +18,10 @@ defmodule BackendWeb.Router do
 
     resources "/questions", QuestionsController, only: [:index]
     delete "/questions", QuestionsController, :batch_delete
+
+    scope "/accounts" do
+      post "/users", UsersController, :create
+    end
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
