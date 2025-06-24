@@ -4,7 +4,7 @@ defmodule BackendWeb.UsersController do
 
   action_fallback BackendWeb.FallbackController
 
-  def create(conn, %{"user" => user}) do
+  def create(conn, %{"email" => _email, "password" => _password} = user) do
     with {:ok, _user} <- Accounts.create_user(user) do
       conn
       |> put_status(:created)

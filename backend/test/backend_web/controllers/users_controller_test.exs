@@ -10,18 +10,14 @@ defmodule BackendWeb.UsersControllerTest do
   describe "create" do
     test "returns success on valid user creation", %{conn: conn} do
       conn =
-        post(conn, ~p"/api/accounts/users", %{
-          user: %{email: "hello@example.com", password: "worlD123"}
-        })
+        post(conn, ~p"/api/accounts/users", %{email: "hello@example.com", password: "worlD123"})
 
       assert json_response(conn, 201)
     end
 
     test "returns failure on invalid user creation", %{conn: conn} do
       conn =
-        post(conn, ~p"/api/accounts/users", %{
-          user: %{email: "helloexample.com", password: "worlD123"}
-        })
+        post(conn, ~p"/api/accounts/users", %{email: "helloexample.com", password: "worlD123"})
 
       assert json_response(conn, 500)
     end
