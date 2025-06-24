@@ -15,7 +15,10 @@ defmodule BackendWeb.Endpoint do
     websocket: [connect_info: [session: @session_options]],
     longpoll: [connect_info: [session: @session_options]]
 
-  plug CORSPlug, origin: ["http://localhost:5173"]
+  plug CORSPlug,
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
+    headers: ["Content-Type", "Accept", "Authorization"]
 
   # Serve at "/" the static files from "priv/static" directory.
   #

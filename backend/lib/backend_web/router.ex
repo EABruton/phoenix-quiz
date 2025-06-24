@@ -19,9 +19,7 @@ defmodule BackendWeb.Router do
     resources "/questions", QuestionsController, only: [:index]
     delete "/questions", QuestionsController, :batch_delete
 
-    scope "/accounts" do
-      post "/users", UsersController, :create
-    end
+    post "/signup", UsersController, :create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
@@ -49,17 +47,23 @@ defmodule BackendWeb.Router do
 
   @impl Plug.ErrorHandler
   def handle_errors(conn, %{reason: %Ecto.Query.CastError{}}) do
+    format = Phoenix.Controller.get_format(conn) || "json"
+
     conn
     |> put_status(:bad_request)
     |> put_view(BackendWeb.ErrorJSON)
+    |> put_format(format)
     |> render(:"400")
   end
 
   @impl Plug.ErrorHandler
-  def handle_errors(conn, %{reason: _}) do
+  def handle_errors(conn, %{reason: reason}) do
+    format = Phoenix.Controller.get_format(conn) || "json"
+
     conn
     |> put_status(:internal_server_error)
     |> put_view(BackendWeb.ErrorJSON)
-    |> render(:"500")
+    |> put_format(format)
+    |> render(:"500", reason: inspect(reason))
   end
 end
