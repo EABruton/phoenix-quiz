@@ -1,5 +1,6 @@
 defmodule BackendWeb.UsersController do
   use BackendWeb, :controller
+  require Logger
   alias Backend.Accounts
 
   action_fallback BackendWeb.FallbackController
@@ -9,6 +10,23 @@ defmodule BackendWeb.UsersController do
       conn
       |> put_status(:created)
       |> render(:created)
+    end
+  end
+
+  def login(conn, %{"email" => email, "password" => _password} = user) do
+    case Accounts.login(user) do
+      {:ok, _user} ->
+        conn
+        |> put_status(:success)
+        |> render(:login_success)
+
+      {:error, :invalid_password} ->
+        Logger.warning("User with email: #{email} attempted login with invalid password")
+        {:error, :unauthorized}
+
+      {:error, :invalid_user} ->
+        Logger.warning("User attempted to login with invalid email")
+        {:error, :unauthorized}
     end
   end
 end

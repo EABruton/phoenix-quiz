@@ -38,6 +38,27 @@ defmodule Backend.Accounts do
   def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
+  Gets a user by email and compares their password with the provided password.
+
+  ## Examples
+    
+    iex> login(%{"email": email, "password": password})
+    {:ok, %User{}}
+
+    iex> login(%{"email": email, "password": bad_password})
+    {:error, :invalid_password}
+  """
+  def login(%{"email" => email, "password" => password}) do
+    with %{email: _user_email, password: user_password} = user <- Repo.get_by(User, email: email),
+         true <- Bcrypt.verify_pass(password, user_password) do
+      {:ok, user}
+    else
+      false -> {:error, :invalid_password}
+      _ -> {:error, :invalid_user}
+    end
+  end
+
+  @doc """
   Creates a user.
 
   ## Examples

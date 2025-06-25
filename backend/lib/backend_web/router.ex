@@ -20,6 +20,7 @@ defmodule BackendWeb.Router do
     delete "/questions", QuestionsController, :batch_delete
 
     post "/signup", UsersController, :create
+    post "/login", UsersController, :login
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

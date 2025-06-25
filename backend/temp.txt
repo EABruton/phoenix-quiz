@@ -1,5 +1,0 @@
-alias Backend.Accounts.User
-
-u = %User{}
-attrs = %{password: "abcdefghi"}
-cs = u |> User.changeset(attrs, :update_password)
