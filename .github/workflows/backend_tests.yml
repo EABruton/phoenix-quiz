@@ -8,9 +8,7 @@ on:
 
 jobs:
   test:
-    runs_on: [ubuntu-latest]
-    defaults:
-      working-directory: backend
+    runs-on: ubuntu-latest
 
     services:
       postgres:
@@ -38,20 +36,23 @@ jobs:
       - name: Uses Elixir
         uses: erlef/setup-beam@v1
         with:
-          # elixir --version
           elixir-version: '1.18.x'
           otp-version: '28'
 
       - name: Install dependencies
         run: mix deps.get
+        working-directory: backend
 
       - name: Compile dependencies
         run: mix compile --warnings-as-errors
+        working-directory: backend
 
       - name: Create and migrate database
         run: |
           mix ecto.create
           mix ecto.migrate
+        working-directory: backend
 
       - name: Run tests
         run: mix test
+        working-directory: backend
