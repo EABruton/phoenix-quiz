@@ -9,7 +9,7 @@ defmodule Backend.AccountsTest do
     import Backend.AccountsFixtures
 
     @invalid_attrs %{"password" => nil, "email" => nil}
-    @invalid_partial_attrs %{"password" =>  "abc123DEF", "email" => nil}
+    @invalid_partial_attrs %{"password" => "abc123DEF", "email" => nil}
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -48,7 +48,8 @@ defmodule Backend.AccountsTest do
       email_wrong = "def@abc.com"
       user_fixture(%{"password" => password, "email" => email_right})
 
-      assert {:error, :invalid_user} == Accounts.login(%{"email" => email_wrong, "password" => password})
+      assert {:error, :invalid_user} ==
+               Accounts.login(%{"email" => email_wrong, "password" => password})
     end
 
     test "login/1 with invalid password returns invalid user" do
@@ -57,7 +58,8 @@ defmodule Backend.AccountsTest do
       email = "abc@def.com"
       user_fixture(%{"password" => password, "email" => email})
 
-      assert {:error, :invalid_password} == Accounts.login(%{"email" => email, "password" => password_wrong})
+      assert {:error, :invalid_password} ==
+               Accounts.login(%{"email" => email, "password" => password_wrong})
     end
 
     test "update_user/2 with email only updates email" do
