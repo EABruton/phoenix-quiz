@@ -20,7 +20,7 @@ defmodule BackendWeb.UsersController do
         conn
         |> assign(:user_uuid, user.id)
         |> put_session(:user_uuid, user.id)
-        |> put_status(:success)
+        |> put_status(:ok)
         |> render(:login_success)
 
       {:error, :invalid_password} ->
