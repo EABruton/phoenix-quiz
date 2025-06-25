@@ -21,7 +21,11 @@ defmodule BackendWeb.UsersController do
         |> render(:login_success)
 
       {:error, :invalid_password} ->
-        Logger.warning("User with email: #{email} attempted login with invalid password")
+        # redact part of the email for privacy / security
+        Logger.warning(
+          "User with email: #{String.slice(email, 0, 3)} attempted login with invalid password"
+        )
+
         {:error, :unauthorized}
 
       {:error, :invalid_user} ->

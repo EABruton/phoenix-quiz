@@ -2,24 +2,24 @@ defmodule BackendWeb.ErrorJSONTest do
   use BackendWeb.ConnCase, async: true
 
   test "renders 404" do
-    assert BackendWeb.ErrorJSON.render(:"404", %{}) == %{message: "Not Found"}
+    assert BackendWeb.ErrorJSON.render("404.json", %{}) == %{message: "Not Found"}
   end
 
   test "renders 500" do
-    assert BackendWeb.ErrorJSON.render(:"500", %{}) ==
+    assert BackendWeb.ErrorJSON.render("500.json", %{}) ==
              %{message: "Internal Server Error"}
   end
 
   test "renders 400" do
-    assert BackendWeb.ErrorJSON.render(:"400", %{}) == %{message: "Bad Request"}
+    assert BackendWeb.ErrorJSON.render("400.json", %{}) == %{message: "Bad Request"}
   end
 
   test "renders 401" do
-    assert BackendWeb.ErrorJSON.render(:"401", %{}) == %{message: "Unauthorized"}
+    assert BackendWeb.ErrorJSON.render("401.json", %{}) == %{message: "Unauthorized"}
   end
 
   test "renders 403" do
-    assert BackendWeb.ErrorJSON.render(:"403", %{}) == %{message: "Forbidden"}
+    assert BackendWeb.ErrorJSON.render("403.json", %{}) == %{message: "Forbidden"}
   end
 
   test "renders default error" do
