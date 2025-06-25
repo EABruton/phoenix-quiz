@@ -11,6 +11,8 @@ defmodule BackendWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_current_user
   end
 
   scope "/api", BackendWeb do
@@ -66,5 +68,19 @@ defmodule BackendWeb.Router do
     |> put_view(BackendWeb.ErrorJSON)
     |> put_format(format)
     |> render(:"500", reason: inspect(reason))
+  end
+
+  defp fetch_current_user(conn, _) do
+    case get_session(conn, :user_uuid, :no_uuid) do
+      :no_uuid ->
+        new_user_uuid = Ecto.UUID.generate()
+
+        conn
+        |> assign(:user_uuid, new_user_uuid)
+        |> put_session(:user_uuid, new_user_uuid)
+
+      user_uuid ->
+        assign(conn, :user_uuid, user_uuid)
+    end
   end
 end

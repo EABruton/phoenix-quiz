@@ -1,6 +1,7 @@
 defmodule BackendWeb.UsersController do
   use BackendWeb, :controller
   require Logger
+  alias Backend.Accounts.User
   alias Backend.Accounts
 
   action_fallback BackendWeb.FallbackController
@@ -15,8 +16,10 @@ defmodule BackendWeb.UsersController do
 
   def login(conn, %{"email" => email, "password" => _password} = user) do
     case Accounts.login(user) do
-      {:ok, _user} ->
+      {:ok, %User{} = user} ->
         conn
+        |> assign(:user_uuid, user.id)
+        |> put_session(:user_uuid, user.id)
         |> put_status(:success)
         |> render(:login_success)
 
