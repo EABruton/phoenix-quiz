@@ -8,9 +8,7 @@ type LoginArgs = SignupArgs;
 
 async function postSignup(data: SignupArgs): Promise<ApiResponse<number>> {
   try {
-    const response = await api.post("/accounts/signup", {
-      data,
-    });
+    const response = await api.post("/signup", data);
     return [response.status, null];
   } catch (error) {
     console.error("Error signing up: ", (error as Error).message);
@@ -20,7 +18,7 @@ async function postSignup(data: SignupArgs): Promise<ApiResponse<number>> {
 
 async function postLogin(data: LoginArgs): Promise<ApiResponse<number>> {
   try {
-    const response = await api.post("/accounts/login", { data });
+    const response = await api.post("/login", { data });
     return [response.status, null];
   } catch (error) {
     console.error("Error logging in: ", (error as Error).message);

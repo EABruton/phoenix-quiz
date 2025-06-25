@@ -16,7 +16,7 @@ defmodule Backend.Quizzes.Answer do
   @doc false
   def changeset(answer, attrs) do
     answer
-    |> cast(attrs, [:label, :text])
-    |> validate_required([:label, :text])
+    |> cast(attrs, [:label, :text, :question_id])
+    |> validate_required([:label, :text, :question_id])
   end
 end

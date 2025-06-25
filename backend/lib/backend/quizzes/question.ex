@@ -10,6 +10,7 @@ defmodule Backend.Quizzes.Question do
 
     has_many :answers, Backend.Quizzes.Answer
     belongs_to :quiz, Backend.Quizzes.Quiz, type: :binary_id
+    belongs_to :user, Backend.Accounts.User, type: :binary_id
 
     timestamps(type: :utc_datetime)
   end
@@ -17,7 +18,7 @@ defmodule Backend.Quizzes.Question do
   @doc false
   def changeset(question, attrs) do
     question
-    |> cast(attrs, [:question_text, :answer_text, :quiz_id])
-    |> validate_required([:question_text, :answer_text])
+    |> cast(attrs, [:question_text, :answer_text, :quiz_id, :user_id])
+    |> validate_required([:question_text, :answer_text, :user_id])
   end
 end
