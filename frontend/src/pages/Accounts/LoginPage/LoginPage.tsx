@@ -2,6 +2,8 @@ import { useState } from "react";
 import "../Accounts.css";
 import ErrorsList from "../../../components/ErrorsList/ErrorsList";
 import AccountsService from "../../../services/api/AccountsService";
+import { Link } from "react-router";
+import { ROUTE_SIGNUP } from "../../../App";
 
 type LoginFormProps = {
   email: string;
@@ -68,9 +70,9 @@ function LoginForm({
           Login
         </button>
         <span className="accounts-form__or">OR</span>
-        <a href="#" className="accounts-form__link">
+        <Link to={ROUTE_SIGNUP} className="accounts-form__link">
           Signup here
-        </a>
+        </Link>
       </div>
     </form>
   );

@@ -1,6 +1,7 @@
 import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
+import { MemoryRouter } from "react-router";
 
 // mock response
 const mockPostLogin = jest.fn();
@@ -29,7 +30,11 @@ async function fillValidForm() {
 test("disables submit button until fields are filled", async () => {
   // arrange
   userEvent.setup();
-  render(<LoginPage />);
+  render(
+    <MemoryRouter>
+      <LoginPage />
+    </MemoryRouter>,
+  );
 
   // assert: initial state - button disabled
   const submitButton = () => screen.getByText(/login/i, { selector: "button" });
@@ -45,7 +50,11 @@ test("disables submit button until fields are filled", async () => {
 test("renders error on fail response", async () => {
   // arrange
   userEvent.setup();
-  render(<LoginPage />);
+  render(
+    <MemoryRouter>
+      <LoginPage />
+    </MemoryRouter>,
+  );
   const errorMessage = "failed to login";
   mockPostLogin.mockReturnValueOnce([null, new Error(errorMessage)]);
 
