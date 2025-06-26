@@ -9,6 +9,8 @@ import type { FieldValidator } from "../../../utils/validators";
 import { validateEmail, validatePassword } from "./utils/validators";
 import ErrorsList from "../../../components/ErrorsList/ErrorsList";
 import AccountsService from "../../../services/api/AccountsService";
+import { Link } from "react-router";
+import { ROUTE_LOGIN } from "../../../App";
 
 type SignupFormProps = {
   emailInputProps: InputProps<string>;
@@ -140,9 +142,9 @@ function SignupForm({
           Signup
         </button>
         <span className="accounts-form__or">OR</span>
-        <a href="#" className="accounts-form__link">
+        <Link to={ROUTE_LOGIN} className="accounts-form__link">
           Login here
-        </a>
+        </Link>
       </div>
     </form>
   );

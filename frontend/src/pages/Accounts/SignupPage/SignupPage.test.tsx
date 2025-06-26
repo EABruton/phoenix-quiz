@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
+import { MemoryRouter } from "react-router";
 
 // mock response
 const mockPostSignup = jest.fn();
@@ -31,7 +32,11 @@ beforeEach(() => {
 test("shows field validation error on field blur", async () => {
   // arrange
   userEvent.setup();
-  render(<SignupPage />);
+  render(
+    <MemoryRouter>
+      <SignupPage />
+    </MemoryRouter>,
+  );
 
   // assert: initial state - email field
   const emailField = await screen.findByLabelText(/email/i);
@@ -57,7 +62,11 @@ test("shows field validation error on field blur", async () => {
 test("disables submit button unless all fields are valid", async () => {
   // arrange
   userEvent.setup();
-  render(<SignupPage />);
+  render(
+    <MemoryRouter>
+      <SignupPage />
+    </MemoryRouter>,
+  );
 
   // assert: initial state - submit button disabled
   let submitButton = await screen.findByTestId(sSignupSubmitButton);
@@ -87,7 +96,11 @@ test("disables submit button unless all fields are valid", async () => {
 test("renders errors on error response", async () => {
   // arrange
   userEvent.setup();
-  render(<SignupPage />);
+  render(
+    <MemoryRouter>
+      <SignupPage />
+    </MemoryRouter>,
+  );
   const errorMessage = "failed to signup";
   mockPostSignup.mockReturnValueOnce([null, new Error(errorMessage)]);
 
