@@ -4,19 +4,14 @@ defmodule BackendWeb.Endpoint do
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
-  @session_options [
-    store: :cookie,
-    key: "_backend_key",
-    signing_salt: "K6++0R/M",
-    same_site: "Lax"
-  ]
+  @session_options Application.compile_env!(:backend, :session)
 
   socket "/live", Phoenix.LiveView.Socket,
     websocket: [connect_info: [session: @session_options]],
     longpoll: [connect_info: [session: @session_options]]
 
   plug CORSPlug,
-    origin: ["http://localhost:5173"],
+    origin: [System.get_env("CORS_ORIGIN") || "http://localhost:5173"],
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     headers: ["Content-Type", "Accept", "Authorization"]
 

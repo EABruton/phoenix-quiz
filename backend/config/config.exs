@@ -22,6 +22,22 @@ config :backend, BackendWeb.Endpoint,
   pubsub_server: Backend.PubSub,
   live_view: [signing_salt: "wstcTPDQ"]
 
+config :backend, :session,
+  key: "_backend_key",
+  signing_salt: System.get_env("SIGNING_SALT") || "compiletime-fallback",
+  encryption_salt: System.get_env("ENCRYPTION_SALT") || "compiletime-fallback",
+  max_age: String.to_integer(System.get_env("SESSION_MAX_AGE") || "86400"),
+  store: :cookie,
+  same_site: "Lax"
+
+if Mix.env() == :prod do
+  for env_variable <- ["SIGNING_SALT", "ENCRYPTION_SALT"] do
+    if is_nil(System.get_env(env_variable)) do
+      raise "Missing SIGNING_SALT variable in production"
+    end
+  end
+end
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

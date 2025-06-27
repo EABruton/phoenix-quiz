@@ -71,16 +71,16 @@ defmodule BackendWeb.Router do
   end
 
   defp fetch_current_user(conn, _) do
-    case get_session(conn, :user_uuid, :no_uuid) do
+    case get_session(conn, :user_id, :no_uuid) do
       :no_uuid ->
         new_user_uuid = Ecto.UUID.generate()
 
         conn
-        |> assign(:user_uuid, new_user_uuid)
-        |> put_session(:user_uuid, new_user_uuid)
+        |> assign(:user_id, new_user_uuid)
+        |> put_session(:user_id, new_user_uuid)
 
       user_uuid ->
-        assign(conn, :user_uuid, user_uuid)
+        assign(conn, :user_id, user_uuid)
     end
   end
 end
